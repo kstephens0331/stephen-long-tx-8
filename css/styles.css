@@ -568,12 +568,13 @@ img {
 
 .hero-subtitle {
   font-family: var(--font-body);
-  font-size: 1.25rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.25rem);
   font-weight: 400;
   color: var(--gray-500);
   margin-bottom: 1.5rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
 }
 
 .hero-quote {
