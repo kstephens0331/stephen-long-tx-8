@@ -441,7 +441,14 @@
           <div class="district-map">
             <div class="interactive-map-container">
               <!-- Interactive Leaflet Map with Real District 8 Boundaries -->
-              <div id="district-map" role="application" aria-label="Interactive map of Texas Congressional District 8"></div>
+              <div id="district-map" role="application" aria-label="Interactive map of Texas Congressional District 8">
+                <!-- Loading state - will be replaced by Leaflet map -->
+                <div id="map-loading" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #f5f5f5;">
+                  <i class="fa-solid fa-map-location-dot" style="font-size: 3rem; color: #1B365D; margin-bottom: 1rem;"></i>
+                  <p style="color: #1B365D; font-weight: 600;">Loading Interactive Map...</p>
+                  <p style="color: #6b7280; font-size: 0.875rem;">Texas Congressional District 8</p>
+                </div>
+              </div>
               <div class="map-instructions">
                 <i class="fa-solid fa-hand-pointer"></i>
                 <span>Click and drag to explore • Scroll to zoom • Click areas for details</span>

@@ -8,12 +8,35 @@
 document.addEventListener('DOMContentLoaded', () => {
   const mapContainer = document.getElementById('district-map');
   if (mapContainer) {
+    // Check if Leaflet is loaded
+    if (typeof L === 'undefined') {
+      console.error('Leaflet library not loaded. Map cannot initialize.');
+      showMapError('Map library failed to load. Please refresh the page.');
+      return;
+    }
     // Small delay to ensure CSS is fully applied and container is sized
     setTimeout(() => {
-      initDistrictViewer();
+      try {
+        initDistrictViewer();
+      } catch (error) {
+        console.error('Map initialization error:', error);
+        showMapError('Error loading map. Please refresh the page.');
+      }
     }, 100);
   }
 });
+
+// Show error message in map container
+function showMapError(message) {
+  const loadingDiv = document.getElementById('map-loading');
+  if (loadingDiv) {
+    loadingDiv.innerHTML = `
+      <i class="fa-solid fa-exclamation-triangle" style="font-size: 3rem; color: #C41E3A; margin-bottom: 1rem;"></i>
+      <p style="color: #C41E3A; font-weight: 600;">${message}</p>
+      <p style="color: #6b7280; font-size: 0.875rem;">Texas Congressional District 8</p>
+    `;
+  }
+}
 
 // Store map reference globally for resize handling
 let districtMap = null;
@@ -27,6 +50,14 @@ function initDistrictViewer() {
     setTimeout(initDistrictViewer, 200);
     return;
   }
+
+  // Hide loading state
+  const loadingDiv = document.getElementById('map-loading');
+  if (loadingDiv) {
+    loadingDiv.style.display = 'none';
+  }
+
+  console.log('Initializing district map...');
 
   // Create the map centered on Texas
   const map = L.map('district-map', {

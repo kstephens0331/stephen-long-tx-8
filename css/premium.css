@@ -126,8 +126,8 @@
 .hero-label {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(196, 30, 58, 0.2) 100%);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, #C41E3A 0%, #8B0000 100%);
+  border: 1px solid rgba(196, 30, 58, 0.5);
   backdrop-filter: blur(10px);
 }
 
