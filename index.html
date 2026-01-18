@@ -45,6 +45,9 @@
   <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+  <!-- Leaflet.js for Interactive Maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/styles.css">
 
@@ -382,190 +385,12 @@
       <div class="container">
         <div class="district-grid">
           <div class="district-map">
-            <div class="texas-map-container">
-              <!-- Professional Texas Map with District 8 -->
-              <svg viewBox="0 0 600 550" class="texas-svg" role="img" aria-label="Map of Texas highlighting Congressional District 8">
-                <defs>
-                  <linearGradient id="texasGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#1B365D;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#0f2341;stop-opacity:1" />
-                  </linearGradient>
-                  <linearGradient id="districtGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#C41E3A;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#9a1830;stop-opacity:1" />
-                  </linearGradient>
-                  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="4" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
-                  </filter>
-                  <filter id="innerGlow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feFlood flood-color="#D4AF37" flood-opacity="0.3"/>
-                    <feComposite in2="SourceAlpha" operator="in"/>
-                    <feGaussianBlur stdDeviation="2"/>
-                    <feComposite in2="SourceAlpha" operator="in"/>
-                    <feMerge>
-                      <feMergeNode/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-
-                <!-- Texas State Outline - True Geographic Shape -->
-                <path class="texas-outline" filter="url(#shadow)" d="
-                  M 95,30
-                  L 95,105
-                  L 25,105
-                  L 25,145
-                  L 30,160
-                  L 28,180
-                  L 35,210
-                  L 60,250
-                  L 75,280
-                  L 90,300
-                  L 110,330
-                  L 130,355
-                  L 155,378
-                  L 180,395
-                  L 200,415
-                  L 225,438
-                  L 260,458
-                  L 295,472
-                  L 340,480
-                  L 380,482
-                  L 400,478
-                  L 420,470
-                  L 455,450
-                  L 475,432
-                  L 490,418
-                  L 510,398
-                  L 528,370
-                  L 538,340
-                  L 545,305
-                  L 548,275
-                  L 550,255
-                  L 548,230
-                  L 540,195
-                  L 525,155
-                  L 515,130
-                  L 502,110
-                  L 485,95
-                  L 460,82
-                  L 435,75
-                  L 400,68
-                  L 360,62
-                  L 320,55
-                  L 280,48
-                  L 240,42
-                  L 200,36
-                  L 160,32
-                  L 120,30
-                  L 95,30
-                  Z"
-                  fill="url(#texasGradient)"
-                  stroke="#D4AF37"
-                  stroke-width="3"/>
-
-                <!-- Texas District 8 - North of Houston, East Texas/Piney Woods -->
-                <path class="district-highlight" filter="url(#glow)" d="
-                  M 440,195
-                  L 468,188
-                  L 495,195
-                  L 515,210
-                  L 528,235
-                  L 532,265
-                  L 528,295
-                  L 515,318
-                  L 495,332
-                  L 468,340
-                  L 440,335
-                  L 418,322
-                  L 405,302
-                  L 400,275
-                  L 405,248
-                  L 420,222
-                  L 440,195
-                  Z"
-                  fill="url(#districtGradient)"
-                  stroke="#D4AF37"
-                  stroke-width="2.5">
-                  <animate attributeName="opacity" values="1;0.9;1" dur="2.5s" repeatCount="indefinite"/>
-                </path>
-
-                <!-- Major Cities Reference Points -->
-                <g class="city-markers">
-                  <!-- Houston -->
-                  <g class="houston-marker">
-                    <circle cx="480" cy="385" r="7" fill="#fff" opacity="0.8"/>
-                    <text x="480" y="405" text-anchor="middle" fill="#fff" font-size="12" font-weight="500" opacity="0.85">Houston</text>
-                  </g>
-
-                  <!-- The Woodlands - Primary Star Marker -->
-                  <g class="woodlands-marker" filter="url(#glow)">
-                    <circle cx="468" cy="275" r="18" fill="#D4AF37">
-                      <animate attributeName="r" values="18;22;18" dur="2s" repeatCount="indefinite"/>
-                      <animate attributeName="opacity" values="1;0.85;1" dur="2s" repeatCount="indefinite"/>
-                    </circle>
-                    <text x="468" y="282" text-anchor="middle" fill="#1B365D" font-size="20" font-weight="bold">★</text>
-                  </g>
-                  <text x="468" y="305" text-anchor="middle" fill="#D4AF37" font-size="11" font-weight="bold">The Woodlands</text>
-
-                  <!-- Conroe -->
-                  <circle cx="455" cy="245" r="5" fill="#fff"/>
-                  <text x="432" y="248" text-anchor="end" fill="#fff" font-size="10" font-weight="600">Conroe</text>
-
-                  <!-- Huntsville -->
-                  <circle cx="485" cy="220" r="5" fill="#fff"/>
-                  <text x="505" y="223" text-anchor="start" fill="#fff" font-size="10" font-weight="600">Huntsville</text>
-
-                  <!-- Livingston -->
-                  <circle cx="510" cy="275" r="4" fill="#fff" opacity="0.9"/>
-                  <text x="530" y="278" text-anchor="start" fill="#fff" font-size="9" font-weight="500">Livingston</text>
-
-                  <!-- Dallas -->
-                  <circle cx="370" cy="120" r="6" fill="#fff" opacity="0.6"/>
-                  <text x="370" y="108" text-anchor="middle" fill="#fff" font-size="11" opacity="0.7">Dallas</text>
-
-                  <!-- Austin -->
-                  <circle cx="300" cy="325" r="6" fill="#fff" opacity="0.6"/>
-                  <text x="300" y="345" text-anchor="middle" fill="#fff" font-size="11" opacity="0.7">Austin</text>
-
-                  <!-- San Antonio -->
-                  <circle cx="260" cy="385" r="6" fill="#fff" opacity="0.6"/>
-                  <text x="260" y="405" text-anchor="middle" fill="#fff" font-size="11" opacity="0.7">San Antonio</text>
-
-                  <!-- El Paso Reference -->
-                  <circle cx="32" cy="155" r="5" fill="#fff" opacity="0.5"/>
-                  <text x="48" y="158" text-anchor="start" fill="#fff" font-size="10" opacity="0.6">El Paso</text>
-                </g>
-
-                <!-- District 8 Label -->
-                <g class="district-label-group">
-                  <text x="468" y="270" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">TX-8</text>
-                </g>
-
-                <!-- Decorative Pulse Ring -->
-                <g class="decorative" opacity="0.2">
-                  <circle cx="468" cy="265" r="70" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="8,4">
-                    <animate attributeName="r" values="70;85;70" dur="3s" repeatCount="indefinite"/>
-                    <animate attributeName="opacity" values="0.2;0.1;0.2" dur="3s" repeatCount="indefinite"/>
-                  </circle>
-                </g>
-              </svg>
-              <div class="map-legend">
-                <div class="legend-item">
-                  <span class="legend-color" style="background: #C41E3A;"></span>
-                  <span>District 8</span>
-                </div>
-                <div class="legend-item">
-                  <span class="legend-color" style="background: #D4AF37;"></span>
-                  <span>The Woodlands</span>
-                </div>
+            <div class="interactive-map-container">
+              <!-- Interactive Leaflet Map with Real District 8 Boundaries -->
+              <div id="district-map" role="application" aria-label="Interactive map of Texas Congressional District 8"></div>
+              <div class="map-instructions">
+                <i class="fa-solid fa-hand-pointer"></i>
+                <span>Click and drag to explore • Scroll to zoom • Click areas for details</span>
               </div>
             </div>
           </div>
@@ -689,6 +514,8 @@
   </footer>
 
   <!-- JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/main.js"></script>
+  <script src="js/district-map.js"></script>
 </body>
 </html>
