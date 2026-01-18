@@ -8,9 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ==================== SCROLL ANIMATIONS ====================
   const animateOnScroll = () => {
+    // Note: .district-map is excluded to prevent hiding the Leaflet map container
     const animateElements = document.querySelectorAll(
       '.section-header, .hero-content, .hero-image, .about-grid > *, .issue-card, ' +
-      '.why-card, .district-content, .district-map, .volunteer-option, .news-card, ' +
+      '.why-card, .district-content, .volunteer-option, .news-card, ' +
       '.event-card, .contact-info, .contact-form, .why-card, .endorsement-card, ' +
       '.donate-card, .gallery-item, .about-feature, .district-highlight-item, ' +
       'h1, h2, .btn, .hero-stat, .key-points, .issue-highlight'
@@ -374,6 +375,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Initialize scroll animations
   animateOnScroll();
+
+  // ==================== DATA-ANIMATE SCROLL OBSERVER ====================
+  const initDataAnimations = () => {
+    // Animate elements with data-animate attribute
+    const animatedElements = document.querySelectorAll('[data-animate]');
+    const staggeredContainers = document.querySelectorAll('[data-animate-stagger]');
+
+    const animateObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animated');
+          animateObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '0px 0px -80px 0px',
+      threshold: 0.15
+    });
+
+    animatedElements.forEach(el => animateObserver.observe(el));
+    staggeredContainers.forEach(el => animateObserver.observe(el));
+  };
+
+  // Initialize data animations
+  initDataAnimations();
 
   // ==================== SCROLL PROGRESS INDICATOR ====================
   const progressBar = document.createElement('div');

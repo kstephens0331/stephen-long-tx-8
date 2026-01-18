@@ -50,6 +50,7 @@
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/premium.css">
 
   <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
@@ -143,46 +144,90 @@
   <main id="main-content">
     <!-- Hero Section -->
     <section class="hero" aria-labelledby="hero-title">
+      <!-- Animated Background Elements -->
+      <div class="hero-bg-effects">
+        <div class="hero-gradient-orb hero-orb-1"></div>
+        <div class="hero-gradient-orb hero-orb-2"></div>
+        <div class="hero-gradient-orb hero-orb-3"></div>
+        <div class="hero-particles">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+
       <div class="container">
         <div class="hero-grid">
-          <div class="hero-content">
+          <div class="hero-content" data-animate="fade-right">
             <div class="hero-label">
               <i class="fa-solid fa-star"></i>
               Plain Truth Politician
+              <span class="label-shine"></span>
             </div>
-            <h1 id="hero-title" class="hero-title">Stephen Long</h1>
-            <p class="hero-subtitle">Republican for Congress | Texas District 8</p>
-            <p class="hero-quote">Let's leave our children a strong, free, and financially secure country.</p>
+            <h1 id="hero-title" class="hero-title">
+              <span class="title-line">Stephen</span>
+              <span class="title-line title-accent">Long</span>
+            </h1>
+            <p class="hero-subtitle">
+              <span class="subtitle-badge">Republican</span> for Congress | Texas District 8
+            </p>
+            <p class="hero-quote">
+              <span class="quote-mark">"</span>
+              Let's leave our children a strong, free, and financially secure country.
+              <span class="quote-mark">"</span>
+            </p>
             <p class="hero-description">
               A moderate conservative fighting for fiscal responsibility, balanced budgets, and common-sense solutions for Texas families.
             </p>
             <div class="hero-buttons">
-              <a href="pages/issues.html" class="btn btn-primary">Where I Stand</a>
-              <a href="pages/donate.html" class="btn btn-outline">Support the Campaign</a>
+              <a href="pages/issues.html" class="btn btn-primary btn-glow">
+                <span>Where I Stand</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+              <a href="pages/donate.html" class="btn btn-outline btn-magnetic">
+                <span>Support the Campaign</span>
+              </a>
             </div>
             <div class="hero-social">
-              <a href="https://x.com/StephenLong3250" target="_blank" rel="noopener noreferrer" aria-label="Follow on X (Twitter)">
+              <a href="https://x.com/StephenLong3250" target="_blank" rel="noopener noreferrer" aria-label="Follow on X (Twitter)" class="social-icon-premium">
                 <i class="fa-brands fa-x-twitter"></i>
               </a>
-              <a href="https://www.facebook.com/people/Stephen-Long-for-Congress-TX-8/61585637946937/" target="_blank" rel="noopener noreferrer" aria-label="Follow on Facebook">
+              <a href="https://www.facebook.com/people/Stephen-Long-for-Congress-TX-8/61585637946937/" target="_blank" rel="noopener noreferrer" aria-label="Follow on Facebook" class="social-icon-premium">
                 <i class="fa-brands fa-facebook-f"></i>
               </a>
-              <a href="https://www.youtube.com/channel/UCQzmQ2Bd4JKB0kp8Rp1NcuQ" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube">
+              <a href="https://www.youtube.com/channel/UCQzmQ2Bd4JKB0kp8Rp1NcuQ" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube" class="social-icon-premium">
                 <i class="fa-brands fa-youtube"></i>
               </a>
-              <a href="https://www.linkedin.com/in/steve-long-3889b430/" target="_blank" rel="noopener noreferrer" aria-label="Connect on LinkedIn">
+              <a href="https://www.linkedin.com/in/steve-long-3889b430/" target="_blank" rel="noopener noreferrer" aria-label="Connect on LinkedIn" class="social-icon-premium">
                 <i class="fa-brands fa-linkedin-in"></i>
               </a>
             </div>
           </div>
-          <div class="hero-image">
+          <div class="hero-image" data-animate="fade-left">
             <div class="hero-image-wrapper">
               <div class="hero-image-accent"></div>
+              <div class="hero-image-glow"></div>
               <img src="images/stephen-long-hero.jpg" alt="Stephen Long - Republican Candidate for Congress TX-8" width="400" height="500">
+              <!-- Floating Badges -->
+              <div class="floating-badge badge-experience">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>30+ Years<br>Experience</span>
+              </div>
+              <div class="floating-badge badge-texas">
+                <i class="fa-solid fa-star"></i>
+                <span>Texas<br>Native</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Wave Divider -->
+      <div class="hero-wave">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,90 1440,60 L1440,120 L0,120 Z" fill="currentColor"/>
+        </svg>
+      </div>
+
       <div class="hero-stats">
         <div class="container">
           <div class="hero-stats-grid">
@@ -210,12 +255,12 @@
     <!-- Video Introduction -->
     <section class="section" aria-labelledby="video-heading">
       <div class="container">
-        <header class="section-header">
+        <header class="section-header" data-animate="fade-up">
           <span class="section-label">Introduction</span>
           <h2 id="video-heading">Meet Stephen</h2>
           <p>Watch Stephen explain why he's running for Congress and what he'll fight for in Washington.</p>
         </header>
-        <div class="video-wrapper">
+        <div class="video-wrapper" data-animate="scale">
           <iframe
             src="https://www.youtube.com/embed/ypbUn8R31YA?start=30"
             title="Stephen Long Introduction Video - Candidate for Congress TX-8"
@@ -232,14 +277,14 @@
     <section class="section" aria-labelledby="about-heading">
       <div class="container">
         <div class="about-grid">
-          <div class="about-image">
+          <div class="about-image" data-animate="fade-right">
             <img src="images/stephen-long-family.jpg" alt="Stephen Long with his family in Montgomery County, Texas" width="500" height="600">
             <div class="about-image-badge">
               <strong>30+</strong>
               <span>Years in TX</span>
             </div>
           </div>
-          <div class="about-content">
+          <div class="about-content" data-animate="fade-left">
             <h3>Meet the Candidate</h3>
             <h2 id="about-heading">A Texan Fighting for Our Children's Future</h2>
             <p>
@@ -266,22 +311,28 @@
                 <span>SHSU Graduate</span>
               </div>
             </div>
-            <a href="pages/about.html" class="btn btn-primary">Read Full Bio</a>
+            <a href="pages/about.html" class="btn btn-primary btn-glow">Read Full Bio</a>
           </div>
         </div>
+      </div>
+      <!-- Wave Divider to Issues -->
+      <div class="section-wave section-wave-gray">
+        <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+          <path d="M0,50 C180,100 360,0 540,50 C720,100 900,0 1080,50 C1260,100 1440,50 1440,50 L1440,100 L0,100 Z" fill="currentColor"/>
+        </svg>
       </div>
     </section>
 
     <!-- Key Issues Section -->
     <section class="section section-gray" aria-labelledby="issues-heading">
       <div class="container">
-        <header class="section-header">
+        <header class="section-header" data-animate="fade-up">
           <span class="section-label">The Issues</span>
           <h2 id="issues-heading">Where I Stand</h2>
           <p>Clear positions on the issues that matter most to Texas families. No political doublespeak - just plain truth.</p>
         </header>
 
-        <div class="issues-grid">
+        <div class="issues-grid" data-animate-stagger>
           <!-- National Debt -->
           <article class="issue-card">
             <div class="issue-icon"><i class="fa-solid fa-chart-line"></i></div>
@@ -344,21 +395,27 @@
         </div>
 
         <div class="text-center" style="margin-top: 3rem;">
-          <a href="pages/issues.html" class="btn btn-secondary">View All Issues</a>
+          <a href="pages/issues.html" class="btn btn-secondary btn-glow">View All Issues</a>
         </div>
+      </div>
+      <!-- Wave Divider to Why Section -->
+      <div class="section-wave section-wave-white">
+        <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+          <path d="M0,80 C240,20 480,100 720,60 C960,20 1200,80 1440,40 L1440,100 L0,100 Z" fill="currentColor"/>
+        </svg>
       </div>
     </section>
 
     <!-- Why Stephen Section -->
     <section class="section" aria-labelledby="why-heading">
       <div class="container">
-        <header class="section-header">
+        <header class="section-header" data-animate="fade-up">
           <span class="section-label">Why Vote Stephen</span>
           <h2 id="why-heading">What Sets Me Apart</h2>
           <p>Real experience. Real solutions. Real accountability.</p>
         </header>
 
-        <div class="why-grid">
+        <div class="why-grid" data-animate-stagger>
           <div class="why-card">
             <div class="why-icon"><i class="fa-solid fa-handshake"></i></div>
             <h3>Plain Truth Politician</h3>
@@ -394,7 +451,7 @@
               </div>
             </div>
           </div>
-          <div class="district-content">
+          <div class="district-content" data-animate="fade-left">
             <span class="section-label"><i class="fa-solid fa-map-location-dot"></i> Texas Congressional District 8</span>
             <h2 id="district-heading">Fighting for Our Community</h2>
             <p class="district-intro">Texas District 8 spans from the northern Houston suburbs through the heart of East Texas, including communities I've called home for over 30 years.</p>
@@ -446,10 +503,10 @@
     <!-- Call to Action -->
     <section class="cta-section" aria-labelledby="cta-heading">
       <div class="container">
-        <h2 id="cta-heading">Join the Campaign</h2>
-        <p>The March 3rd, 2026 Republican Primary is coming fast. Help send a Plain Truth Politician to Washington who will fight for fiscal responsibility and our children's future.</p>
-        <div class="cta-buttons">
-          <a href="pages/donate.html" class="btn btn-primary">Donate Now</a>
+        <h2 id="cta-heading" data-animate="fade-up">Join the Campaign</h2>
+        <p data-animate="fade-up">The March 3rd, 2026 Republican Primary is coming fast. Help send a Plain Truth Politician to Washington who will fight for fiscal responsibility and our children's future.</p>
+        <div class="cta-buttons" data-animate="fade-up">
+          <a href="pages/donate.html" class="btn btn-primary btn-glow">Donate Now</a>
           <a href="pages/volunteer.html" class="btn btn-white">Volunteer</a>
         </div>
       </div>

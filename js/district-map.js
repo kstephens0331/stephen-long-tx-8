@@ -8,11 +8,26 @@
 document.addEventListener('DOMContentLoaded', () => {
   const mapContainer = document.getElementById('district-map');
   if (mapContainer) {
-    initDistrictViewer();
+    // Small delay to ensure CSS is fully applied and container is sized
+    setTimeout(() => {
+      initDistrictViewer();
+    }, 100);
   }
 });
 
+// Store map reference globally for resize handling
+let districtMap = null;
+
 function initDistrictViewer() {
+  const mapContainer = document.getElementById('district-map');
+
+  // Ensure container has proper dimensions before initializing
+  if (!mapContainer || mapContainer.offsetHeight === 0) {
+    console.log('Map container not ready, retrying...');
+    setTimeout(initDistrictViewer, 200);
+    return;
+  }
+
   // Create the map centered on Texas
   const map = L.map('district-map', {
     center: [31.0, -99.5],
@@ -21,6 +36,9 @@ function initDistrictViewer() {
     maxZoom: 12,
     zoomControl: false
   });
+
+  // Store reference globally
+  districtMap = map;
 
   // Add zoom control to top right
   L.control.zoom({ position: 'topright' }).addTo(map);
@@ -37,6 +55,26 @@ function initDistrictViewer() {
 
   // Fallback: Use embedded simplified district data
   loadDistrictData(map);
+
+  // Handle resize and visibility changes
+  window.addEventListener('resize', () => {
+    if (districtMap) {
+      districtMap.invalidateSize();
+    }
+  });
+
+  // Fix for scroll animations hiding the map - refresh when visible
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && districtMap) {
+        setTimeout(() => {
+          districtMap.invalidateSize();
+        }, 100);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  observer.observe(mapContainer);
 }
 
 function loadDistrictData(map) {
