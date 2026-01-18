@@ -1934,29 +1934,60 @@ img {
 .texas-map-container {
   position: relative;
   width: 100%;
-  max-width: 380px;
+  max-width: 450px;
+  padding: 2rem;
+  background: linear-gradient(145deg, #f0f4f8 0%, #ffffff 50%, #f8f9fa 100%);
+  border-radius: 20px;
+  box-shadow:
+    0 25px 50px rgba(27, 54, 93, 0.15),
+    0 10px 30px rgba(27, 54, 93, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.texas-map-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, var(--red) 0%, #D4AF37 50%, var(--navy) 100%);
+  border-radius: 22px;
+  z-index: -1;
+  opacity: 0.3;
 }
 
 .texas-svg {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 8px 25px rgba(27, 54, 93, 0.2));
+  filter: drop-shadow(0 10px 30px rgba(27, 54, 93, 0.25));
+  transition: transform 0.4s ease;
+}
+
+.texas-map-container:hover .texas-svg {
+  transform: scale(1.02);
 }
 
 .texas-outline {
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
+}
+
+.texas-map-container:hover .texas-outline {
+  filter: drop-shadow(0 0 20px rgba(27, 54, 93, 0.4));
 }
 
 .district-highlight {
-  animation: pulse-glow 2s ease-in-out infinite;
+  animation: pulse-glow 2.5s ease-in-out infinite;
+  cursor: pointer;
 }
 
 @keyframes pulse-glow {
   0%, 100% {
-    filter: drop-shadow(0 0 8px rgba(196, 30, 58, 0.5));
+    filter: drop-shadow(0 0 10px rgba(196, 30, 58, 0.6));
   }
   50% {
-    filter: drop-shadow(0 0 15px rgba(196, 30, 58, 0.8));
+    filter: drop-shadow(0 0 25px rgba(196, 30, 58, 0.9));
   }
 }
 
@@ -1970,27 +2001,37 @@ img {
 .map-legend {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 2rem;
   margin-top: 1.5rem;
-  padding: 1rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, var(--navy) 0%, #0d1f38 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(27, 54, 93, 0.2);
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--gray-700);
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
 }
 
 .legend-color {
-  width: 16px;
-  height: 16px;
-  border-radius: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.legend-item:first-child .legend-color {
+  animation: legend-pulse 2s ease-in-out infinite;
+}
+
+@keyframes legend-pulse {
+  0%, 100% { box-shadow: 0 2px 6px rgba(196, 30, 58, 0.3); }
+  50% { box-shadow: 0 2px 15px rgba(196, 30, 58, 0.6); }
 }
 
 .district-content {
