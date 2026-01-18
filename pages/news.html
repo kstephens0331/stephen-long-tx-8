@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta Tags -->
+  <title>News & Press | Stephen Long for Congress TX-8 | Campaign Updates</title>
+  <meta name="description" content="Latest news, press releases, and campaign updates from Stephen Long for Congress TX-8. Stay informed about the campaign for fiscal responsibility.">
+  <meta name="keywords" content="Stephen Long news, Congress TX-8 press, campaign updates, Texas District 8 news, Republican primary news">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="News & Press | Stephen Long for Congress TX-8">
+  <meta property="og:description" content="Latest news and updates from Stephen Long's campaign for Congress TX-8.">
+  <meta property="og:url" content="https://stephenlongforcongress.com/pages/news.html">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://stephenlongforcongress.com/pages/news.html">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* Premium Page Header */
+    .page-header {
+      background: linear-gradient(135deg, #1B365D 0%, #0d1f38 100%);
+      padding: 4rem 0 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+    .page-header h1 {
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .page-header p {
+      color: rgba(255,255,255,0.85);
+      font-size: 1.2rem;
+    }
+    .breadcrumb a {
+      color: #D4AF37;
+    }
+    .breadcrumb span {
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* Featured News Banner */
+    .featured-banner {
+      background: linear-gradient(90deg, #C41E3A 0%, #8B0000 100%);
+      padding: 1rem 0;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .featured-banner p {
+      color: white;
+      margin: 0;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .featured-banner i {
+      color: #D4AF37;
+      margin-right: 0.5rem;
+    }
+
+    /* News Section */
+    .news-section {
+      background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+      padding: 4rem 0;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    .news-card {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(27, 54, 93, 0.1);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(27, 54, 93, 0.08);
+    }
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(27, 54, 93, 0.15);
+    }
+    @media (min-width: 576px) {
+      .news-card {
+        grid-template-columns: 220px 1fr;
+      }
+    }
+
+    .news-image {
+      background: linear-gradient(135deg, #1B365D 0%, #0d1f38 100%);
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .news-image i {
+      font-size: 3.5rem !important;
+      color: #D4AF37 !important;
+      opacity: 0.9;
+    }
+    .news-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .news-content {
+      padding: 2rem;
+    }
+    .news-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+    .news-category {
+      background: linear-gradient(135deg, #C41E3A 0%, #8B0000 100%);
+      color: white;
+      padding: 0.35rem 1rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .news-category.policy {
+      background: linear-gradient(135deg, #1B365D 0%, #0d1f38 100%);
+    }
+    .news-category.video {
+      background: linear-gradient(135deg, #D4AF37 0%, #B8960C 100%);
+      color: #1B365D;
+    }
+    .news-content h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1.35rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: #1B365D;
+      line-height: 1.3;
+    }
+    .news-content p {
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+    .news-content .issue-link {
+      color: #C41E3A;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    .news-content .issue-link:hover {
+      color: #1B365D;
+      gap: 0.75rem;
+    }
+
+    /* Press Kit */
+    .press-kit {
+      background: linear-gradient(135deg, #1B365D 0%, #0d1f38 100%);
+      color: white;
+      padding: 3.5rem;
+      border-radius: 16px;
+      text-align: center;
+      margin-top: 3rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(27, 54, 93, 0.3);
+    }
+    .press-kit::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 60%);
+    }
+    .press-kit h3 {
+      color: white;
+      margin-bottom: 1rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      position: relative;
+    }
+    .press-kit h3 i {
+      color: #D4AF37;
+      margin-right: 0.75rem;
+    }
+    .press-kit p {
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      position: relative;
+    }
+    .press-kit .btn {
+      position: relative;
+      background: linear-gradient(135deg, #D4AF37 0%, #B8960C 100%);
+      color: #1B365D;
+      font-weight: 700;
+    }
+    .press-kit .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Newsletter Section */
+    .newsletter-section {
+      background: linear-gradient(135deg, #C41E3A 0%, #8B0000 100%);
+      padding: 4rem 0;
+      position: relative;
+    }
+    .newsletter-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .newsletter-section .section-header h2 {
+      color: white;
+      font-family: 'Playfair Display', serif;
+    }
+    .newsletter-section .section-header p {
+      color: rgba(255,255,255,0.9);
+    }
+    .newsletter-form {
+      max-width: 550px;
+      margin: 0 auto;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .newsletter-form input {
+      flex: 1;
+      min-width: 280px;
+      padding: 1.1rem 1.25rem;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.95);
+      transition: all 0.3s ease;
+    }
+    .newsletter-form input:focus {
+      border-color: #D4AF37;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+      outline: none;
+    }
+    .newsletter-form .btn {
+      background: linear-gradient(135deg, #D4AF37 0%, #B8960C 100%);
+      color: #1B365D;
+      font-weight: 700;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+    }
+    .newsletter-form .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .newsletter-privacy {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.8);
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-main">
+      <a href="../index.html" class="logo">
+        <div class="logo-text">
+          Stephen Long
+          <span>For Congress TX-8</span>
+        </div>
+      </a>
+
+      <nav class="nav-desktop">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="issues.html">Issues</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="news.html" class="active">News</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="donate.html" class="nav-cta">Donate</a></li>
+        </ul>
+      </nav>
+
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-mobile">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="issues.html">Issues</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="donate.html" class="nav-cta-mobile">Donate</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container">
+        <nav class="breadcrumb">
+          <a href="../index.html">Home</a>
+          <span>/</span>
+          <span>News</span>
+        </nav>
+        <h1>News & Press</h1>
+        <p>Campaign updates, press releases, and media coverage</p>
+      </div>
+    </section>
+
+    <!-- Featured Banner -->
+    <div class="featured-banner">
+      <div class="container">
+        <p><i class="fa-solid fa-star"></i> Primary Election: March 3, 2026 - Join the movement for fiscal responsibility!</p>
+      </div>
+    </div>
+
+    <!-- News Section -->
+    <section class="news-section">
+      <div class="container">
+        <div class="news-grid">
+          <!-- News Item 1 -->
+          <article class="news-card">
+            <div class="news-image">
+              <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <div class="news-content">
+              <div class="news-meta">
+                <span class="news-category">Announcement</span>
+                <span><i class="fa-solid fa-calendar"></i> January 2026</span>
+              </div>
+              <h3>Stephen Long Announces Campaign for Congress TX-8</h3>
+              <p>Montgomery County resident and oilfield services veteran Stephen Long officially announces his candidacy for the U.S. House of Representatives, Texas District 8, running as a "Plain Truth Politician" focused on fiscal responsibility.</p>
+              <a href="#" class="issue-link">Read More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <!-- News Item 2 -->
+          <article class="news-card">
+            <div class="news-image">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div class="news-content">
+              <div class="news-meta">
+                <span class="news-category policy">Policy</span>
+                <span><i class="fa-solid fa-calendar"></i> January 2026</span>
+              </div>
+              <h3>Stephen Long Releases Comprehensive Debt Reduction Plan</h3>
+              <p>Candidate outlines detailed approach to addressing the national debt, including balanced budget requirements and closing tax loopholes, while protecting essential services.</p>
+              <a href="issues.html#national-debt" class="issue-link">Read More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <!-- News Item 3 -->
+          <article class="news-card">
+            <div class="news-image">
+              <i class="fa-solid fa-video"></i>
+            </div>
+            <div class="news-content">
+              <div class="news-meta">
+                <span class="news-category video">Video</span>
+                <span><i class="fa-solid fa-calendar"></i> January 2026</span>
+              </div>
+              <h3>Campaign Introduction Video Released</h3>
+              <p>Watch Stephen Long explain why he's running for Congress and what he'll fight for in Washington. A Plain Truth Politician for Texas District 8.</p>
+              <a href="https://www.youtube.com/watch?v=ypbUn8R31YA&t=30s" target="_blank" class="issue-link">Watch Video <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <!-- Placeholder for future news -->
+          <article class="news-card">
+            <div class="news-image">
+              <i class="fa-solid fa-newspaper"></i>
+            </div>
+            <div class="news-content">
+              <div class="news-meta">
+                <span class="news-category">Campaign</span>
+                <span><i class="fa-solid fa-calendar"></i> Coming Soon</span>
+              </div>
+              <h3>More Updates Coming Soon</h3>
+              <p>Stay tuned for more campaign news, event announcements, and policy updates. Follow us on social media for the latest information.</p>
+              <a href="https://x.com/StephenLong3250" target="_blank" class="issue-link">Follow on X <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Press Kit -->
+        <div class="press-kit">
+          <h3><i class="fa-solid fa-file-lines"></i> Media & Press</h3>
+          <p>Members of the media can contact us for interviews, press materials, and official campaign information.</p>
+          <a href="mailto:press@stephenlongforcongress.com" class="btn btn-secondary">
+            <i class="fa-solid fa-envelope"></i> Contact Press Team
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Signup -->
+    <section class="newsletter-section">
+      <div class="container">
+        <header class="section-header">
+          <h2>Stay Informed</h2>
+          <p>Get campaign updates delivered to your inbox</p>
+        </header>
+
+        <form class="newsletter-form">
+          <input type="email" placeholder="Enter your email address" required>
+          <button type="submit" class="btn">Subscribe</button>
+        </form>
+        <p class="newsletter-privacy">
+          We respect your privacy and will never share your information.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Stephen Long for Congress</h3>
+          <p>A moderate conservative fighting for fiscal responsibility, balanced budgets, and a secure future for Texas families.</p>
+          <div class="footer-social">
+            <a href="https://x.com/StephenLong3250" target="_blank" rel="noopener" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://www.facebook.com/people/Stephen-Long-for-Congress-TX-8/61585637946937/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.youtube.com/channel/UCQzmQ2Bd4JKB0kp8Rp1NcuQ" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.linkedin.com/in/steve-long-3889b430/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="issues.html">Issues</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="volunteer.html">Volunteer</a></li>
+            <li><a href="donate.html">Donate</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p><i class="fa-solid fa-location-dot"></i> The Woodlands, TX 77382</p>
+          <p><i class="fa-solid fa-envelope"></i> info@stephenlongforcongress.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-disclaimer">
+          <p><strong>Paid for by Stephen Long for Congress TX-8.</strong> Not authorized by any candidate or candidate's committee.</p>
+        </div>
+        <p class="footer-copyright">&copy; 2026 Stephen Long for Congress TX-8. All rights reserved. | Built by <a href="https://stephenscode.dev" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.7);">StephensCode</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

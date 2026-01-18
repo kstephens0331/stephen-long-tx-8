@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta Tags -->
+  <title>Events & Calendar | Stephen Long for Congress TX-8 | Campaign Events</title>
+  <meta name="description" content="Join Stephen Long at upcoming campaign events in Texas District 8. Town halls, meet-and-greets, rallies, and community events in Montgomery County and surrounding areas.">
+  <meta name="keywords" content="Stephen Long events, Congress TX-8 campaign events, Montgomery County political events, The Woodlands town hall, Texas Republican events">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Campaign Events | Stephen Long for Congress TX-8">
+  <meta property="og:description" content="Meet Stephen Long in person at upcoming campaign events across Texas District 8.">
+  <meta property="og:url" content="https://stephenlongforcongress.com/pages/events.html">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://stephenlongforcongress.com/pages/events.html">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* Premium Page Header */
+    .page-header {
+      background: linear-gradient(135deg, #1B365D 0%, #0d1f38 100%);
+      padding: 6rem 0 4rem;
+    }
+    .page-header h1 { color: white; }
+    .page-header p { color: rgba(255,255,255,0.85); }
+    .page-header .breadcrumb a { color: #D4AF37; }
+    .page-header .breadcrumb span { color: rgba(255,255,255,0.6); }
+
+    /* Countdown Banner */
+    .countdown-banner {
+      background: linear-gradient(135deg, #C41E3A 0%, #8a0621 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(196, 30, 58, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .countdown-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    }
+    .countdown-banner h3 {
+      color: white;
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+    .countdown-banner h3 i { color: #D4AF37; }
+    .countdown-number {
+      font-size: 3.5rem;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      color: #D4AF37;
+      position: relative;
+    }
+    .countdown-banner > p {
+      position: relative;
+      margin-top: 0.5rem;
+    }
+
+    .events-list {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+    .events-list h2 {
+      color: #1B365D;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .events-list h2::before {
+      content: '';
+      width: 4px;
+      height: 32px;
+      background: linear-gradient(180deg, #C41E3A 0%, #D4AF37 100%);
+      border-radius: 2px;
+    }
+
+    /* Event Cards */
+    .event-card {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+    .event-card:hover {
+      box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+      transform: translateY(-4px);
+      border-left-color: #C41E3A;
+    }
+    .event-date-box {
+      background: linear-gradient(135deg, #1B365D 0%, #0d1f38 100%);
+      color: white;
+      text-align: center;
+      padding: 1.25rem;
+      border-radius: 12px;
+      height: fit-content;
+      box-shadow: 0 4px 15px rgba(27, 54, 93, 0.3);
+    }
+    .event-date-box .month {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #D4AF37;
+    }
+    .event-date-box .day {
+      font-size: 2.75rem;
+      font-weight: 700;
+      line-height: 1;
+      margin: 0.25rem 0;
+    }
+    .event-date-box .year {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    .event-info h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1.35rem;
+      color: #1B365D;
+    }
+    .event-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #868E96;
+    }
+    .event-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .event-meta i { color: #C41E3A; }
+    .event-info p {
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+      color: #495057;
+    }
+    .event-type {
+      display: inline-block;
+      background: linear-gradient(135deg, #1B365D 0%, #2A4A7A 100%);
+      padding: 0.35rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Section Alt Styling */
+    .section-alt {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    .section-alt .issue-card {
+      border-top: 4px solid #C41E3A;
+    }
+    .section-alt .issue-card .issue-icon {
+      background: linear-gradient(135deg, #1B365D 0%, #0d1f38 100%);
+    }
+    .section-alt .issue-card .issue-icon i { color: #D4AF37; }
+
+    /* CTA Section */
+    .section-dark.cta-section {
+      background: linear-gradient(135deg, #C41E3A 0%, #8a0621 100%);
+    }
+
+    @media (max-width: 576px) {
+      .event-card {
+        grid-template-columns: 1fr;
+      }
+      .event-date-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1rem;
+      }
+      .event-date-box .day {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-main">
+      <a href="../index.html" class="logo">
+        <div class="logo-text">
+          Stephen Long
+          <span>For Congress TX-8</span>
+        </div>
+      </a>
+
+      <nav class="nav-desktop">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="issues.html">Issues</a></li>
+          <li><a href="events.html" class="active">Events</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="donate.html" class="nav-cta">Donate</a></li>
+        </ul>
+      </nav>
+
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-mobile">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="issues.html">Issues</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="donate.html" class="nav-cta-mobile">Donate</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container">
+        <nav class="breadcrumb">
+          <a href="../index.html">Home</a>
+          <span>/</span>
+          <span>Events</span>
+        </nav>
+        <h1>Campaign Events</h1>
+        <p>Meet Stephen in person at upcoming events across Texas District 8</p>
+      </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="section">
+      <div class="container">
+        <!-- Primary Countdown -->
+        <div class="countdown-banner">
+          <h3><i class="fa-solid fa-flag-checkered"></i> Republican Primary Election</h3>
+          <div class="countdown-number primary-countdown">-- days until Primary</div>
+          <p style="margin: 0;">March 3, 2026 - Make your voice heard!</p>
+        </div>
+
+        <div class="events-list">
+          <h2 style="margin-bottom: 2rem;">Upcoming Events</h2>
+
+          <!-- Sample Events - These would be dynamically updated -->
+          <article class="event-card">
+            <div class="event-date-box">
+              <div class="month">Jan</div>
+              <div class="day">25</div>
+              <div class="year">2026</div>
+            </div>
+            <div class="event-info">
+              <span class="event-type">Town Hall</span>
+              <h3>Meet Stephen Town Hall</h3>
+              <div class="event-meta">
+                <span><i class="fa-solid fa-clock"></i> 6:00 PM - 8:00 PM</span>
+                <span><i class="fa-solid fa-location-dot"></i> The Woodlands, TX</span>
+              </div>
+              <p>Join Stephen for an open town hall where he'll discuss his positions on the national debt, immigration, and other key issues. Q&A session included.</p>
+              <a href="volunteer.html" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.9rem;">RSVP</a>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="event-date-box">
+              <div class="month">Feb</div>
+              <div class="day">1</div>
+              <div class="year">2026</div>
+            </div>
+            <div class="event-info">
+              <span class="event-type">Meet & Greet</span>
+              <h3>Coffee with the Candidate</h3>
+              <div class="event-meta">
+                <span><i class="fa-solid fa-clock"></i> 9:00 AM - 11:00 AM</span>
+                <span><i class="fa-solid fa-location-dot"></i> Conroe, TX</span>
+              </div>
+              <p>Grab a cup of coffee and have an informal conversation with Stephen about the issues that matter to you. All are welcome!</p>
+              <a href="volunteer.html" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.9rem;">RSVP</a>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="event-date-box">
+              <div class="month">Feb</div>
+              <div class="day">8</div>
+              <div class="year">2026</div>
+            </div>
+            <div class="event-info">
+              <span class="event-type">Community Event</span>
+              <h3>Montgomery County GOP Forum</h3>
+              <div class="event-meta">
+                <span><i class="fa-solid fa-clock"></i> 7:00 PM - 9:00 PM</span>
+                <span><i class="fa-solid fa-location-dot"></i> Montgomery County, TX</span>
+              </div>
+              <p>Stephen will participate in a candidate forum with other TX-8 Republican primary candidates. Hear all candidates discuss their platforms.</p>
+              <a href="volunteer.html" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Learn More</a>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="event-date-box">
+              <div class="month">Feb</div>
+              <div class="day">15</div>
+              <div class="year">2026</div>
+            </div>
+            <div class="event-info">
+              <span class="event-type">Canvass</span>
+              <h3>Volunteer Canvass Day</h3>
+              <div class="event-meta">
+                <span><i class="fa-solid fa-clock"></i> 10:00 AM - 2:00 PM</span>
+                <span><i class="fa-solid fa-location-dot"></i> Multiple Locations</span>
+              </div>
+              <p>Join our volunteer team to knock doors and talk with voters. Training provided. Lunch included for all volunteers!</p>
+              <a href="volunteer.html" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Sign Up</a>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="event-date-box" style="background: var(--primary-red);">
+              <div class="month">Mar</div>
+              <div class="day">3</div>
+              <div class="year">2026</div>
+            </div>
+            <div class="event-info">
+              <span class="event-type" style="background: var(--primary-red); color: white;">Election Day</span>
+              <h3>Republican Primary Election Day</h3>
+              <div class="event-meta">
+                <span><i class="fa-solid fa-clock"></i> 7:00 AM - 7:00 PM</span>
+                <span><i class="fa-solid fa-location-dot"></i> Your Local Polling Place</span>
+              </div>
+              <p><strong>This is it!</strong> Vote Stephen Long for Congress TX-8. Find your polling place and make your voice heard!</p>
+              <a href="https://www.votetexas.gov/voting/where.html" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Find Your Polling Place</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Host an Event -->
+    <section class="section section-alt">
+      <div class="container">
+        <header class="section-header">
+          <h2>Host an Event</h2>
+          <p>Want to bring Stephen to your community?</p>
+        </header>
+
+        <div class="issues-grid" style="max-width: 900px; margin: 0 auto;">
+          <div class="issue-card">
+            <div class="issue-icon"><i class="fa-solid fa-house-user"></i></div>
+            <h3>House Party</h3>
+            <p>Invite neighbors to meet Stephen in a relaxed, intimate setting. We provide materials and support.</p>
+          </div>
+
+          <div class="issue-card">
+            <div class="issue-icon"><i class="fa-solid fa-building"></i></div>
+            <h3>Business Event</h3>
+            <p>Host Stephen at your place of business to discuss issues important to local employers.</p>
+          </div>
+
+          <div class="issue-card">
+            <div class="issue-icon"><i class="fa-solid fa-users"></i></div>
+            <h3>Community Group</h3>
+            <p>Invite Stephen to speak at your civic organization, club, or community group meeting.</p>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <a href="contact.html" class="btn btn-primary">Request an Event</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section section-dark cta-section">
+      <div class="container">
+        <h2>Can't Attend an Event?</h2>
+        <p>There are other ways to get involved and support the campaign.</p>
+        <div class="cta-buttons">
+          <a href="volunteer.html" class="btn btn-primary">Volunteer</a>
+          <a href="donate.html" class="btn btn-secondary">Donate</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Stephen Long for Congress</h3>
+          <p>A moderate conservative fighting for fiscal responsibility, balanced budgets, and a secure future for Texas families.</p>
+          <div class="footer-social">
+            <a href="https://x.com/StephenLong3250" target="_blank" rel="noopener" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://www.facebook.com/people/Stephen-Long-for-Congress-TX-8/61585637946937/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.youtube.com/channel/UCQzmQ2Bd4JKB0kp8Rp1NcuQ" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.linkedin.com/in/steve-long-3889b430/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="issues.html">Issues</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="volunteer.html">Volunteer</a></li>
+            <li><a href="donate.html">Donate</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p><i class="fa-solid fa-location-dot"></i> The Woodlands, TX 77382</p>
+          <p><i class="fa-solid fa-envelope"></i> info@stephenlongforcongress.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-disclaimer">
+          <p><strong>Paid for by Stephen Long for Congress TX-8.</strong> Not authorized by any candidate or candidate's committee.</p>
+        </div>
+        <p class="footer-copyright">&copy; 2026 Stephen Long for Congress TX-8. All rights reserved. | Built by <a href="https://stephenscode.dev" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.7);">StephensCode</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

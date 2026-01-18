@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta Tags -->
+  <title>Photo Gallery | Stephen Long for Congress TX-8 | Campaign Photos</title>
+  <meta name="description" content="View photos from Stephen Long's campaign for Congress TX-8. Campaign events, community gatherings, and moments from across Texas District 8.">
+  <meta name="keywords" content="Stephen Long photos, Congress TX-8 gallery, campaign photos, Texas District 8 events">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Photo Gallery | Stephen Long for Congress TX-8">
+  <meta property="og:description" content="Photos from Stephen Long's campaign for Congress TX-8.">
+  <meta property="og:url" content="https://stephenlongforcongress.com/pages/gallery.html">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://stephenlongforcongress.com/pages/gallery.html">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    .gallery-section {
+      margin-bottom: 3rem;
+    }
+    .gallery-section h2 {
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--light-gray);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    @media (min-width: 576px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (min-width: 992px) {
+      .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .gallery-item {
+      position: relative;
+      padding-top: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--light-gray);
+      cursor: pointer;
+    }
+    .gallery-item img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+    .gallery-item-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--medium-gray);
+    }
+    .gallery-item-placeholder i {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .gallery-item-placeholder span {
+      font-size: 0.8rem;
+    }
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.active {
+      display: flex;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 4px;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-main">
+      <a href="../index.html" class="logo">
+        <div class="logo-text">
+          Stephen Long
+          <span>For Congress TX-8</span>
+        </div>
+      </a>
+
+      <nav class="nav-desktop">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="issues.html">Issues</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="donate.html" class="nav-cta">Donate</a></li>
+        </ul>
+      </nav>
+
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-mobile">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="issues.html">Issues</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="donate.html" class="nav-cta-mobile">Donate</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container">
+        <nav class="breadcrumb">
+          <a href="../index.html">Home</a>
+          <span>/</span>
+          <span>Gallery</span>
+        </nav>
+        <h1>Photo Gallery</h1>
+        <p>Photos from the campaign trail across Texas District 8</p>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section">
+      <div class="container">
+        <!-- Campaign Photos -->
+        <div class="gallery-section">
+          <h2><i class="fa-solid fa-camera"></i> Campaign Photos</h2>
+          <div class="gallery-grid">
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-user"></i>
+                <span>Portrait</span>
+              </div>
+            </div>
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-users"></i>
+                <span>Family</span>
+              </div>
+            </div>
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-handshake"></i>
+                <span>Community</span>
+              </div>
+            </div>
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-microphone"></i>
+                <span>Speaking</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Photos -->
+        <div class="gallery-section">
+          <h2><i class="fa-solid fa-calendar-check"></i> Event Photos</h2>
+          <div class="gallery-grid">
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-people-group"></i>
+                <span>Town Hall</span>
+              </div>
+            </div>
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-mug-hot"></i>
+                <span>Meet & Greet</span>
+              </div>
+            </div>
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-door-open"></i>
+                <span>Canvassing</span>
+              </div>
+            </div>
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-flag-usa"></i>
+                <span>Rally</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community Photos -->
+        <div class="gallery-section">
+          <h2><i class="fa-solid fa-map-location-dot"></i> Around District 8</h2>
+          <div class="gallery-grid">
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-tree-city"></i>
+                <span>The Woodlands</span>
+              </div>
+            </div>
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-building"></i>
+                <span>Conroe</span>
+              </div>
+            </div>
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-landmark"></i>
+                <span>Montgomery</span>
+              </div>
+            </div>
+            <div class="gallery-item">
+              <div class="gallery-item-placeholder">
+                <i class="fa-solid fa-church"></i>
+                <span>Community</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-4" style="background: var(--off-white); padding: 2rem; border-radius: 8px;">
+          <i class="fa-solid fa-camera-retro" style="font-size: 3rem; color: var(--medium-gray); margin-bottom: 1rem;"></i>
+          <h3>More Photos Coming Soon</h3>
+          <p style="color: var(--medium-gray);">Check back as we add photos from campaign events and community gatherings.</p>
+          <a href="events.html" class="btn btn-outline" style="margin-top: 1rem;">See Upcoming Events</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section section-dark cta-section">
+      <div class="container">
+        <h2>Want to Be in Our Photos?</h2>
+        <p>Volunteer and join us at campaign events across District 8!</p>
+        <div class="cta-buttons">
+          <a href="volunteer.html" class="btn btn-primary">Volunteer</a>
+          <a href="events.html" class="btn btn-secondary">See Events</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Stephen Long for Congress</h3>
+          <p>A moderate conservative fighting for fiscal responsibility, balanced budgets, and a secure future for Texas families.</p>
+          <div class="social-links" style="justify-content: flex-start; margin-top: 1.5rem;">
+            <a href="https://x.com/StephenLong3250" target="_blank" rel="noopener" class="social-link"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://www.facebook.com/people/Stephen-Long-for-Congress-TX-8/61585637946937/" target="_blank" rel="noopener" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.youtube.com/channel/UCQzmQ2Bd4JKB0kp8Rp1NcuQ" target="_blank" rel="noopener" class="social-link"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.linkedin.com/in/steve-long-3889b430/" target="_blank" rel="noopener" class="social-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="issues.html">Issues</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="volunteer.html">Volunteer</a></li>
+            <li><a href="donate.html">Donate</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p><i class="fa-solid fa-location-dot"></i> The Woodlands, TX 77382</p>
+          <p><i class="fa-solid fa-envelope"></i> info@stephenlongforcongress.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-disclaimer">
+          <p><strong>Paid for by Stephen Long for Congress TX-8.</strong> Not authorized by any candidate or candidate's committee.</p>
+        </div>
+        <p class="footer-copyright">&copy; 2026 Stephen Long for Congress TX-8. All rights reserved. | Built by <a href="https://stephenscode.dev" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.7);">StephensCode</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
