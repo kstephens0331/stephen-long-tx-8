@@ -287,27 +287,32 @@ function createControlPanel(map, layers) {
   control.onAdd = function() {
     const div = L.DomUtil.create('div', 'map-control-panel');
     div.innerHTML = `
-      <div class="control-header">
-        <span>TX-08</span>
-        <span class="control-title">DistrictViewer</span>
+      <div class="control-header" id="control-toggle">
+        <i class="fa-solid fa-layer-group"></i>
+        <span>Map Options</span>
+        <i class="fa-solid fa-chevron-down toggle-icon"></i>
       </div>
-      <div class="control-body">
+      <div class="control-body" id="control-body">
         <div class="control-section">
-          <label class="control-checkbox">
+          <div class="control-group-title">Show Layers</div>
+          <label class="control-toggle-item">
+            <span><i class="fa-solid fa-border-all"></i> Counties</span>
             <input type="checkbox" id="toggle-counties" checked>
-            <span class="checkmark"></span>
-            Counties
+            <span class="toggle-switch"></span>
           </label>
-          <label class="control-checkbox">
+          <label class="control-toggle-item">
+            <span><i class="fa-solid fa-city"></i> Cities</span>
             <input type="checkbox" id="toggle-cities" checked>
-            <span class="checkmark"></span>
-            Cities
+            <span class="toggle-switch"></span>
           </label>
         </div>
-        <div class="control-section address-search">
-          <label>Find Your District</label>
-          <input type="text" id="address-input" placeholder="Enter address...">
-          <button id="search-btn">Find</button>
+        <div class="control-divider"></div>
+        <div class="control-section">
+          <div class="control-group-title">Find Your District</div>
+          <div class="search-wrapper">
+            <input type="text" id="address-input" placeholder="Enter your address...">
+            <button id="search-btn"><i class="fa-solid fa-search"></i></button>
+          </div>
         </div>
       </div>
     `;
@@ -319,6 +324,18 @@ function createControlPanel(map, layers) {
   };
 
   control.addTo(map);
+
+  // Add collapsible toggle functionality
+  setTimeout(() => {
+    const toggleBtn = document.getElementById('control-toggle');
+    const body = document.getElementById('control-body');
+    if (toggleBtn && body) {
+      toggleBtn.addEventListener('click', () => {
+        body.classList.toggle('collapsed');
+        toggleBtn.classList.toggle('collapsed');
+      });
+    }
+  }, 100);
 
   // Add event listeners
   setTimeout(() => {
