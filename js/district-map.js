@@ -495,8 +495,21 @@ function createTexasDistrictsGeoJSON() {
         [-95.6, 30.0], [-95.6, 29.6], [-95.3, 29.6], [-95.3, 30.0], [-95.6, 30.0]
       ]),
       // DISTRICT 8 - The Woodlands, Conroe, Huntsville (STEPHEN LONG'S DISTRICT!)
+      // Accurate boundaries: Montgomery, Walker, San Jacinto, Trinity, and parts of Polk/Harris counties
       createDistrictFeature('8', [
-        [-95.9, 31.1], [-95.0, 31.1], [-94.5, 30.9], [-94.5, 30.4], [-95.0, 30.2], [-95.6, 30.3], [-96.0, 30.5], [-96.0, 30.9], [-95.9, 31.1]
+        // Starting from southwest (The Woodlands area) going clockwise
+        [-95.60, 30.05], [-95.55, 30.00], [-95.40, 30.02], [-95.25, 30.05],
+        // Eastern boundary - Cleveland, Livingston area
+        [-95.10, 30.15], [-95.00, 30.35], [-94.95, 30.50], [-94.85, 30.65],
+        [-94.80, 30.80], [-94.75, 30.95], [-94.70, 31.10],
+        // Northern boundary - Trinity, Groveton area
+        [-94.75, 31.25], [-94.90, 31.35], [-95.10, 31.40], [-95.30, 31.38],
+        // Northwestern boundary - back toward Huntsville
+        [-95.50, 31.30], [-95.65, 31.15], [-95.75, 31.00],
+        // Western boundary - Walker County, down to Montgomery County
+        [-95.85, 30.80], [-95.90, 30.60], [-95.85, 30.40], [-95.75, 30.20],
+        // Close the polygon back to start
+        [-95.60, 30.05]
       ]),
       // District 9 - South Houston
       createDistrictFeature('9', [

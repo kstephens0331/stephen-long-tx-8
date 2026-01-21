@@ -248,6 +248,95 @@
       background: linear-gradient(135deg, #C41E3A 0%, #8a0621 100%);
     }
 
+    /* Voter Check Table */
+    .voter-check-section {
+      padding: 3rem 0 2rem;
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    }
+    .voter-check-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .voter-check-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: #1B365D;
+      margin-bottom: 0.5rem;
+    }
+    .voter-check-header p {
+      color: #4a5568;
+      font-size: 1.05rem;
+    }
+    .voter-check-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(27, 54, 93, 0.15);
+    }
+    .voter-check-table thead {
+      background: linear-gradient(135deg, #1B365D 0%, #0d1f38 100%);
+    }
+    .voter-check-table th {
+      padding: 1.25rem 1.5rem;
+      text-align: left;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #D4AF37;
+    }
+    .voter-check-table th:first-child {
+      width: 200px;
+    }
+    .voter-check-table td {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #e8e8e8;
+      font-size: 0.95rem;
+      color: #4a5568;
+      line-height: 1.6;
+    }
+    .voter-check-table tr:last-child td {
+      border-bottom: none;
+    }
+    .voter-check-table tr:hover {
+      background: rgba(27, 54, 93, 0.03);
+    }
+    .voter-check-table td:first-child {
+      font-weight: 600;
+      color: #1B365D;
+    }
+    .voter-check-table td:first-child a {
+      color: #1B365D;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+    }
+    .voter-check-table td:first-child a:hover {
+      color: #C41E3A;
+    }
+    .voter-check-table td:first-child a i {
+      font-size: 0.75rem;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .voter-check-table td:first-child a:hover i {
+      opacity: 1;
+      transform: translateX(3px);
+    }
+    @media (max-width: 768px) {
+      .voter-check-table th,
+      .voter-check-table td {
+        padding: 0.875rem 1rem;
+        font-size: 0.9rem;
+      }
+      .voter-check-table th:first-child {
+        width: 140px;
+      }
+    }
+
     /* Pie Chart Gallery */
     .chart-gallery {
       margin: 2.5rem 0;
@@ -337,7 +426,6 @@
           <li><a href="issues.html" class="active">Issues</a></li>
           <li><a href="events.html">Events</a></li>
           <li><a href="news.html">News</a></li>
-          <li><a href="volunteer.html">Volunteer</a></li>
           <li><a href="contact.html">Contact</a></li>
           <li><a href="donate.html" class="nav-cta">Donate</a></li>
         </ul>
@@ -354,7 +442,6 @@
           <li><a href="issues.html">Issues</a></li>
           <li><a href="events.html">Events</a></li>
           <li><a href="news.html">News</a></li>
-          <li><a href="volunteer.html">Volunteer</a></li>
           <li><a href="contact.html">Contact</a></li>
           <li><a href="donate.html" class="nav-cta-mobile">Donate</a></li>
         </ul>
@@ -373,6 +460,90 @@
         </nav>
         <h1>Where I Stand</h1>
         <p>Plain truth on the issues that matter to Texas families. No political doublespeak.</p>
+      </div>
+    </section>
+
+    <!-- Voter Check Summary Table -->
+    <section class="voter-check-section">
+      <div class="container">
+        <div class="voter-check-header">
+          <h2>Voter Check</h2>
+          <p>A quick summary of where I stand on the issues</p>
+        </div>
+        <table class="voter-check-table">
+          <thead>
+            <tr>
+              <th>Topic</th>
+              <th>Summary</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="#national-debt">National Debt <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Greatest concern is for our children's future.</td>
+            </tr>
+            <tr>
+              <td><a href="#immigration">Immigration <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Supports strong border enforcement, legal immigration, and opposes amnesty.</td>
+            </tr>
+            <tr>
+              <td><a href="#social-security">Social Security/Medicare <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Supports programs without benefit cuts or taxation changes.</td>
+            </tr>
+            <tr>
+              <td><a href="#medical-care">Medical Care <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Opposes government control; supports market-driven healthcare.</td>
+            </tr>
+            <tr>
+              <td><a href="#foreign-policy">Russia/Ukraine <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Supports aiding Ukraine without sending U.S. troops.</td>
+            </tr>
+            <tr>
+              <td><a href="#greenland">Greenland <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Opposes using military force; open to territory status if voted.</td>
+            </tr>
+            <tr>
+              <td><a href="#climate-change">Climate Change <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Supports nuclear, natural gas, hydro; opposes wind turbines.</td>
+            </tr>
+            <tr>
+              <td><a href="#transgenderism">Transgenderism <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Opposes in schools; adults may choose for themselves.</td>
+            </tr>
+            <tr>
+              <td><a href="#ice">ICE <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Supports enforcement; opposes cities ignoring federal law.</td>
+            </tr>
+            <tr>
+              <td><a href="#ten-commandments">Ten Commandments <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Supports posting in schools as historical context.</td>
+            </tr>
+            <tr>
+              <td><a href="#abortion">Abortion <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Opposes late-term abortion; supports state-level decisions.</td>
+            </tr>
+            <tr>
+              <td><a href="#vaccinations">Vaccinations <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Opposes mandates; supports personal choice.</td>
+            </tr>
+            <tr>
+              <td><a href="#tariffs">Tariffs <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Should be used strategically, not broadly.</td>
+            </tr>
+            <tr>
+              <td><a href="#education">Dept of Education <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Supports abolishing federal department.</td>
+            </tr>
+            <tr>
+              <td><a href="#term-limits">Term Limits <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Supports 12-year limits for Congress.</td>
+            </tr>
+            <tr>
+              <td><a href="#parents-rights">Parents' Rights <i class="fa-solid fa-arrow-right"></i></a></td>
+              <td>Supports parents making decisions for children.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -415,11 +586,11 @@
           </div>
 
           <p>
-            The primary driver of this problem is excessive federal spending—particularly in healthcare—though other spending categories are also growing far too quickly. Today, the national debt stands at roughly <strong>125 percent of gross domestic product</strong>, the highest level since the all-out wartime emergency of World War II. Many economists suggest a more sustainable ratio would be closer to 50 percent.
+            Today, the national debt stands at roughly <strong>125 percent of gross domestic product</strong>, the highest level since the all-out wartime emergency of World War II. Many economists suggest a more sustainable ratio would be closer to 50 percent.
           </p>
 
           <p>
-            During the COVID years of 2020 and 2021, the federal deficit surged to $3.1 trillion and $2.7 trillion, respectively. In the years since, deficits have remained historically high, averaging between approximately $1.3 and $1.8 trillion annually, with total federal spending ranging from about $6.2 to $6.7 trillion per year. <strong>If we remain on this trajectory, our children could soon be paying 30 to 40 cents of every tax dollar just to cover interest on the debt.</strong>
+            During the COVID years of 2020 and 2021, the federal deficit surged to $3.1 trillion and $2.7 trillion, respectively. In the years since, deficits have remained historically high, averaging between approximately $1.3 and $1.8 trillion annually, with total federal spending ranging from about $6.2 to $6.7 trillion per year. <strong>If we remain on this trajectory, our children and grandchildren could end up paying 30 to 40 cents of every tax dollar just to cover interest on the debt.</strong>
           </p>
 
           <div class="chart-gallery">
@@ -455,7 +626,7 @@
           </p>
 
           <p>
-            Healthcare spending remains the most difficult challenge, and there are no simple solutions. However, requiring Congress to pass a <strong>truly balanced budget—without exceptions</strong>—would force federal agencies to make necessary and difficult decisions. While some programs would be affected, I believe that responsible reductions can be made without allowing Americans to go hungry or suffer undue medical hardship. The alternative—continuing to do nothing—would allow the debt to grow unchecked, placing an even greater burden on future generations.
+            Healthcare spending remains one of the most difficult challenges, and there are no simple solutions. However, requiring Congress to pass a <strong>truly balanced budget—without exceptions</strong>—would force federal agencies to make necessary and often difficult decisions. While some programs would be affected, responsible reductions can be made to achieve an optimal level of government assistance without causing significant hardship. The alternative—continuing to do nothing—would allow the national debt to grow unchecked, placing an even greater burden on future generations.
           </p>
 
           <div class="key-points">
@@ -653,7 +824,7 @@
           <h2><i class="fa-solid fa-snowflake"></i> Greenland</h2>
 
           <p>
-            I would support a <strong>voluntary political or economic arrangement</strong> involving Greenland <strong>only if the people there agree</strong>. I do not believe the United States should use military force to take over Greenland. The people of Greenland do not want to become part of the United States, and forcing such a move would violate American values, international law, and damage our relationships within NATO.
+            I would support a <strong>voluntary political or economic arrangement</strong> involving Greenland <strong>only if the people there agree</strong>. I do not believe the United States should use military force to take over Greenland. If the people of Greenland were to elect to join the United States, and if such a move were legal under international law and made sense for the American taxpayer, I would support Greenland becoming a U.S. territory.
           </p>
 
           <p>
@@ -711,7 +882,7 @@
 
           <h3>A Balanced Approach</h3>
           <p>
-            I favor a measured and pragmatic response to climate change. I support gradual emissions reductions paired with major investments in energy innovation—including advanced nuclear power, improved grid reliability, and carbon capture—as well as adaptation measures such as stronger infrastructure and better disaster preparedness.
+            I favor a measured and pragmatic response to climate change. I support gradual emissions reductions paired with major investments in energy innovation—including advanced nuclear power and improved grid reliability—as well as adaptation measures such as stronger infrastructure and better disaster preparedness.
           </p>
 
           <p>
@@ -724,7 +895,7 @@
               <li>Support renewable energy where economically feasible</li>
               <li>Don't sacrifice America's energy and financial freedom</li>
               <li>Gradual emissions reductions with energy innovation</li>
-              <li>Support advanced nuclear, grid reliability, and carbon capture</li>
+              <li>Support advanced nuclear and grid reliability</li>
               <li>Emphasize realism and cost-effectiveness over emergency mandates</li>
             </ul>
           </div>
@@ -810,7 +981,15 @@
           </p>
 
           <p>
-            I personally believe the Ten Commandments offer practical guidance for life and for society. However, the difficulty with placing the Ten Commandments in a public-school setting lies in their explicitly religious content—particularly the commandment stating, <em>"Thou shalt have no other gods before me."</em> We live in a multicultural society, and public schools serve children from many different religious backgrounds. For students of other faiths, this statement may conflict with their own inherited religious beliefs.
+            I read the Bible often, consider myself a Christian, and rely on my faith to help guide my thoughts and decisions. To me, the Bible and the Ten Commandments are part of my heritage. I believe the Ten Commandments provide practical principles that support moral living and social order.
+          </p>
+
+          <p>
+            However, the difficulty with placing the Ten Commandments in a public-school setting lies in their explicitly religious content—particularly the commandment stating, <em>"Thou shalt have no other gods before me."</em> We live in a multicultural society, and public schools serve children from many different religious backgrounds. For students of other faiths, this statement may conflict with their own inherited religious beliefs.
+          </p>
+
+          <p>
+            In the same sense that I would oppose my children being proselytized in another religion or taught religious doctrine in public school, I believe it is important to apply the same standard when considering how matters of faith relate to my own beliefs in a school setting.
           </p>
 
           <p>
@@ -946,7 +1125,7 @@
           <h2><i class="fa-solid fa-school"></i> Department of Education</h2>
 
           <p>
-            Overall, I would leave it up to someone more knowledgeable about the education system than I. I think the overall allocation of funds to poorer school districts is a benefit of the Department of Education, but <strong>I oppose mandates contrary to the values of the majority of the local community</strong>.
+            Overall, I would leave it up to someone more knowledgeable about the education system than me. I think the overall allocation of funds to poorer school districts is a benefit of the Department of Education, but <strong>I oppose mandates contrary to the values of the majority of the local community</strong>.
           </p>
 
           <p>
@@ -1058,7 +1237,6 @@
             <li><a href="about.html">About</a></li>
             <li><a href="issues.html">Issues</a></li>
             <li><a href="events.html">Events</a></li>
-            <li><a href="volunteer.html">Volunteer</a></li>
             <li><a href="donate.html">Donate</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
