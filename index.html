@@ -45,9 +45,6 @@
   <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Leaflet.js for Interactive Maps -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/premium.css">
@@ -489,19 +486,21 @@
           </header>
 
           <div class="district-map">
-            <div class="interactive-map-container">
-              <!-- Interactive Leaflet Map with Real District 8 Boundaries -->
-              <div id="district-map" role="application" aria-label="Interactive map of Texas Congressional District 8">
-                <!-- Loading state - will be replaced by Leaflet map -->
-                <div id="map-loading" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #f5f5f5;">
-                  <i class="fa-solid fa-map-location-dot" style="font-size: 3rem; color: #1B365D; margin-bottom: 1rem;"></i>
-                  <p style="color: #1B365D; font-weight: 600;">Loading Interactive Map...</p>
-                  <p style="color: #6b7280; font-size: 0.875rem;">Texas Congressional District 8</p>
-                </div>
-              </div>
-              <div class="map-instructions">
-                <i class="fa-solid fa-hand-pointer"></i>
-                <span>Click and drag to explore • Scroll to zoom • Click districts for details</span>
+            <div class="interactive-map-container" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+              <!-- GovTrack Official Congressional District Map -->
+              <iframe
+                src="https://www.govtrack.us/congress/members/embed/mapframe?state=TX&district=8"
+                width="100%"
+                height="500"
+                frameborder="0"
+                scrolling="no"
+                style="border: none; display: block;"
+                title="Texas Congressional District 8 Map - Find Your Representative"
+                aria-label="Interactive map of Texas Congressional District 8">
+              </iframe>
+              <div class="map-instructions" style="background: #1B365D; color: white; padding: 12px; text-align: center;">
+                <i class="fa-solid fa-search"></i>
+                <span>Enter your address above to find your congressional district</span>
               </div>
             </div>
           </div>
@@ -579,8 +578,6 @@
   </footer>
 
   <!-- JavaScript -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/main.js"></script>
-  <script src="js/district-map.js"></script>
 </body>
 </html>
