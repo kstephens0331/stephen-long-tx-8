@@ -95,15 +95,14 @@ async function loadOfficialDistrictData(map) {
   // Census Bureau's official 118th Congress districts GeoJSON
   const CENSUS_URL = 'https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_118th_Congressional_Districts/FeatureServer/0/query?where=STATE_ABBR%3D%27TX%27&outFields=*&f=geojson';
 
-  // Backup sources
-  const BACKUP_URLS = [
-    'https://theunitedstates.io/districts/cds/2022/TX-8/shape.geojson',
-    'https://raw.githubusercontent.com/unitedstates/districts/gh-pages/cds/2022/TX/shape.geojson'
-  ];
-
   try {
+    // Create an AbortController for timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+
     // Try Census Bureau ArcGIS first
-    let response = await fetch(CENSUS_URL);
+    let response = await fetch(CENSUS_URL, { signal: controller.signal });
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error('Census API unavailable');
@@ -112,84 +111,148 @@ async function loadOfficialDistrictData(map) {
     const data = await response.json();
 
     if (data.features && data.features.length > 0) {
-      displayDistricts(map, data, 'CD118FP');
+      console.log('Census API loaded successfully with', data.features.length, 'districts');
+
+      // Log all district numbers found
+      const districts = data.features.map(f => {
+        const props = f.properties;
+        return props.CD118FP || props.CD || props.CDFP || 'unknown';
+      });
+      console.log('Districts found:', districts.sort());
+
+      // Check if District 8 is in the data
+      const hasDistrict8 = data.features.some(f => {
+        const props = f.properties;
+        const cd = props.CD118FP || props.CD || props.CDFP || '';
+        return cd === '08' || cd === '8';
+      });
+      console.log('District 8 found in data:', hasDistrict8);
+
+      displayDistricts(map, data);
       return;
     }
   } catch (error) {
-    console.log('Census API failed, using fallback...', error);
+    console.log('Census API failed, using fallback...', error.message);
   }
 
   // Use embedded accurate data as fallback
-  displayDistricts(map, getTexasDistrictsGeoJSON(), 'district');
+  console.log('Using fallback GeoJSON data');
+  displayDistricts(map, getTexasDistrictsGeoJSON());
 }
 
 // Store district layer globally for point-in-polygon checks
 let globalDistrictLayer = null;
-let globalDistrictField = null;
+let globalDistrictLayers = {}; // Store layers by district number
 
-function getDistrictNumber(feature, districtField) {
+function getDistrictNumber(feature) {
   // Try multiple property names used by different data sources
-  const props = feature.properties;
-  let district = props[districtField] || props.CD118FP || props.CD116FP || props.DISTRICT ||
-                 props.district || props.CDFP || props.CD || props.GEOID || '';
+  const props = feature.properties || {};
 
-  // Convert to string and remove leading zeros
-  district = String(district).replace(/^0+/, '');
+  // Check various property names - Census Bureau uses CD118FP primarily
+  let district = '';
 
-  // If GEOID, extract last 2 digits (district number)
-  if (district.length > 2 && props.GEOID) {
-    district = String(parseInt(props.GEOID.slice(-2)));
+  // First try the most common Census Bureau property names
+  const possibleProps = ['CD118FP', 'CD116FP', 'CDFP', 'CD', 'DISTRICT', 'district', 'NAME', 'NAMELSAD'];
+
+  for (const propName of possibleProps) {
+    if (props[propName]) {
+      const val = String(props[propName]);
+      // For NAME/NAMELSAD, extract the number (e.g., "Congressional District 8" -> "8")
+      if (propName === 'NAME' || propName === 'NAMELSAD') {
+        const match = val.match(/(\d+)/);
+        if (match) {
+          district = match[1];
+          break;
+        }
+      } else if (val.length <= 2 || /^\d{1,2}$/.test(val)) {
+        district = val;
+        break;
+      }
+    }
   }
+
+  // If GEOID exists and district is still empty or looks like a full GEOID
+  if ((!district || String(district).length > 2) && props.GEOID) {
+    // GEOID format is SSCCC where SS is state FIPS and CCC is district
+    district = props.GEOID.slice(-2);
+  }
+
+  // Convert to string and remove leading zeros to normalize
+  district = String(district).replace(/^0+/, '') || '0';
+
+  // Handle case where district is '00' (at-large)
+  if (district === '') district = '0';
 
   return district;
 }
 
-function displayDistricts(map, geojson, districtField) {
+function isDistrict8(feature) {
+  const district = getDistrictNumber(feature);
+  const is8 = district === '8';
+
+  // Debug logging for District 8
+  if (is8) {
+    console.log('District 8 detected:', feature.properties);
+  }
+
+  return is8;
+}
+
+function displayDistricts(map, geojson) {
   const loadingDiv = document.getElementById('map-loading');
   if (loadingDiv) loadingDiv.style.display = 'none';
 
-  // Store for later use in address search
-  globalDistrictField = districtField;
+  // Reset global storage
+  globalDistrictLayers = {};
 
   // Style function for districts
   const districtLayer = L.geoJSON(geojson, {
     style: function(feature) {
-      const district = getDistrictNumber(feature, districtField);
-      const isDistrict8 = district === '8';
+      const is8 = isDistrict8(feature);
+      const district = getDistrictNumber(feature);
+
+      // Debug logging
+      if (is8) {
+        console.log('Found District 8:', feature.properties);
+      }
 
       return {
-        fillColor: isDistrict8 ? '#C41E3A' : '#e0e0e0',
-        fillOpacity: isDistrict8 ? 0.65 : 0.3,
-        color: isDistrict8 ? '#8a0621' : '#666',
-        weight: isDistrict8 ? 4 : 1,
+        fillColor: is8 ? '#C41E3A' : '#e0e0e0',
+        fillOpacity: is8 ? 0.65 : 0.3,
+        color: is8 ? '#8a0621' : '#666',
+        weight: is8 ? 4 : 1,
         opacity: 1
       };
     },
     onEachFeature: function(feature, layer) {
-      const district = getDistrictNumber(feature, districtField);
-      const isDistrict8 = district === '8';
+      const district = getDistrictNumber(feature);
+      const is8 = district === '8';
       const name = feature.properties.NAME || feature.properties.NAMELSAD || `District ${district}`;
 
-      // Store district number on layer for point-in-polygon lookup
-      layer.districtNumber = district;
+      // Store layer reference by district number
+      globalDistrictLayers[district] = layer;
 
       layer.bindPopup(`
         <div style="text-align: center; padding: 10px;">
           <h3 style="margin: 0 0 8px 0; color: #1B365D;">Texas Congressional District ${district}</h3>
-          ${isDistrict8 ? '<p style="color: #C41E3A; font-weight: bold; margin: 8px 0;">Stephen Long is running for this seat!</p>' : ''}
+          ${is8 ? '<p style="color: #C41E3A; font-weight: bold; margin: 8px 0;">Stephen Long is running for this seat!</p>' : ''}
           <p style="margin: 0; color: #666; font-size: 0.9rem;">${name}</p>
         </div>
       `);
 
       layer.on('mouseover', function() {
-        if (!isDistrict8) {
+        if (!is8) {
           this.setStyle({ fillOpacity: 0.5, weight: 2 });
         }
         this.bringToFront();
+        // Keep District 8 on top
+        if (globalDistrictLayers['8']) {
+          globalDistrictLayers['8'].bringToFront();
+        }
       });
 
       layer.on('mouseout', function() {
-        if (!isDistrict8) {
+        if (!is8) {
           districtLayer.resetStyle(this);
         }
       });
@@ -198,6 +261,11 @@ function displayDistricts(map, geojson, districtField) {
 
   // Store globally for address search
   globalDistrictLayer = districtLayer;
+
+  // Bring District 8 to front
+  if (globalDistrictLayers['8']) {
+    globalDistrictLayers['8'].bringToFront();
+  }
 
   // Add District 8 cities
   addDistrict8Cities(map);
@@ -283,48 +351,71 @@ function addLegend(map) {
   legend.addTo(map);
 }
 
-// Point-in-polygon check using ray casting algorithm
-function pointInPolygon(point, polygon) {
-  const x = point[1]; // lng
-  const y = point[0]; // lat
+// Use Census Bureau API to get accurate congressional district for coordinates
+async function getDistrictFromCensus(lat, lng) {
+  try {
+    // Census Bureau Geography API for congressional districts
+    const url = `https://geocoding.geo.census.gov/geocoder/geographies/coordinates?x=${lng}&y=${lat}&benchmark=Public_AR_Current&vintage=Current_Current&layers=54&format=json`;
 
-  let inside = false;
-  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-    const xi = polygon[i][0], yi = polygon[i][1];
-    const xj = polygon[j][0], yj = polygon[j][1];
+    const response = await fetch(url);
+    if (!response.ok) return null;
 
-    if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) {
-      inside = !inside;
+    const data = await response.json();
+
+    // Extract congressional district from response
+    if (data.result && data.result.geographies) {
+      const congressionalDistricts = data.result.geographies['118th Congressional Districts'] ||
+                                     data.result.geographies['Congressional Districts'] ||
+                                     data.result.geographies['Congressional Districts (118th Congress)'];
+
+      if (congressionalDistricts && congressionalDistricts.length > 0) {
+        const cd = congressionalDistricts[0];
+        // CD property contains the district number (e.g., "08")
+        let district = cd.CD || cd.CDFP || cd.CD118FP || '';
+        // Remove leading zeros
+        district = String(district).replace(/^0+/, '') || '0';
+        console.log('Census API found district:', district);
+        return district;
+      }
     }
+
+    return null;
+  } catch (error) {
+    console.log('Census geocoder API failed:', error);
+    return null;
   }
-  return inside;
 }
 
+// Find which district contains a point using Leaflet's built-in methods
 function findDistrictForPoint(lat, lng) {
   if (!globalDistrictLayer) return null;
 
+  const point = L.latLng(lat, lng);
   let foundDistrict = null;
 
   globalDistrictLayer.eachLayer(layer => {
     if (foundDistrict) return;
 
+    // Use Leaflet's getBounds() first for quick rejection
+    const bounds = layer.getBounds();
+    if (!bounds.contains(point)) return;
+
+    // For more accurate check, use the contains method if available
+    // or manually check using ray casting
     const feature = layer.feature;
     if (!feature || !feature.geometry) return;
 
     const coords = feature.geometry.coordinates;
     const geomType = feature.geometry.type;
 
-    // Handle Polygon
     if (geomType === 'Polygon') {
-      if (pointInPolygon([lat, lng], coords[0])) {
-        foundDistrict = layer.districtNumber || getDistrictNumber(feature, globalDistrictField);
+      if (pointInPolygonGeoJSON(lat, lng, coords[0])) {
+        foundDistrict = getDistrictNumber(feature);
       }
-    }
-    // Handle MultiPolygon
-    else if (geomType === 'MultiPolygon') {
+    } else if (geomType === 'MultiPolygon') {
       for (const poly of coords) {
-        if (pointInPolygon([lat, lng], poly[0])) {
-          foundDistrict = layer.districtNumber || getDistrictNumber(feature, globalDistrictField);
+        if (pointInPolygonGeoJSON(lat, lng, poly[0])) {
+          foundDistrict = getDistrictNumber(feature);
           break;
         }
       }
@@ -332,6 +423,26 @@ function findDistrictForPoint(lat, lng) {
   });
 
   return foundDistrict;
+}
+
+// Ray casting algorithm for point in polygon
+// GeoJSON coordinates are [lng, lat], point is (lat, lng)
+function pointInPolygonGeoJSON(lat, lng, ring) {
+  let inside = false;
+
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    // GeoJSON coords are [lng, lat]
+    const xi = ring[i][0], yi = ring[i][1]; // lng, lat of vertex i
+    const xj = ring[j][0], yj = ring[j][1]; // lng, lat of vertex j
+
+    // Check if point's latitude is between the latitudes of the edge
+    const intersect = ((yi > lat) !== (yj > lat)) &&
+                      (lng < (xj - xi) * (lat - yi) / (yj - yi) + xi);
+
+    if (intersect) inside = !inside;
+  }
+
+  return inside;
 }
 
 function addAddressSearch(map, districtLayer) {
@@ -375,7 +486,13 @@ function addAddressSearch(map, districtLayer) {
         resultDiv.style.color = '#666';
       }
 
-      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address + ', Texas, USA')}&limit=1`;
+      // Add Texas if not present
+      let searchAddress = address;
+      if (!address.toLowerCase().includes('texas') && !address.toLowerCase().includes(', tx')) {
+        searchAddress = address + ', Texas';
+      }
+
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchAddress + ', USA')}&limit=1&addressdetails=1`;
 
       try {
         const response = await fetch(url, {
@@ -388,9 +505,19 @@ function addAddressSearch(map, districtLayer) {
           const lat = parseFloat(result.lat);
           const lng = parseFloat(result.lon);
 
-          // Find which district this point is in
-          const district = findDistrictForPoint(lat, lng);
-          const isDistrict8 = district === '8';
+          console.log('Geocoded address:', result.display_name, 'Coords:', lat, lng);
+
+          // Try Census Geocoder API first for accurate district lookup
+          let district = await getDistrictFromCensus(lat, lng);
+
+          // Fallback to point-in-polygon if Census API fails
+          if (!district) {
+            district = findDistrictForPoint(lat, lng);
+          }
+
+          const is8 = district === '8';
+
+          console.log('Found district:', district);
 
           // Remove previous marker
           if (searchMarker) map.removeLayer(searchMarker);
@@ -399,7 +526,7 @@ function addAddressSearch(map, districtLayer) {
           searchMarker = L.marker([lat, lng], {
             icon: L.divIcon({
               className: 'search-marker',
-              html: `<i class="fa-solid fa-location-dot" style="font-size: 28px; color: ${isDistrict8 ? '#C41E3A' : '#1B365D'}; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"></i>`,
+              html: `<i class="fa-solid fa-location-dot" style="font-size: 28px; color: ${is8 ? '#C41E3A' : '#1B365D'}; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"></i>`,
               iconSize: [28, 28],
               iconAnchor: [14, 28]
             })
@@ -410,7 +537,7 @@ function addAddressSearch(map, districtLayer) {
           popupContent += `<strong style="font-size: 14px;">${result.display_name.split(',').slice(0, 3).join(',')}</strong><br>`;
 
           if (district) {
-            if (isDistrict8) {
+            if (is8) {
               popupContent += `<div style="background: #C41E3A; color: white; padding: 8px; border-radius: 4px; margin-top: 8px;">`;
               popupContent += `<strong>Congressional District ${district}</strong><br>`;
               popupContent += `<span style="font-size: 12px;">Stephen Long is running for this seat!</span>`;
@@ -422,7 +549,7 @@ function addAddressSearch(map, districtLayer) {
             }
           } else {
             popupContent += `<div style="background: #666; color: white; padding: 8px; border-radius: 4px; margin-top: 8px;">`;
-            popupContent += `<span>District not found for this location</span>`;
+            popupContent += `<span>District could not be determined</span>`;
             popupContent += `</div>`;
           }
           popupContent += `</div>`;
@@ -433,7 +560,7 @@ function addAddressSearch(map, districtLayer) {
           // Update result div
           if (resultDiv) {
             if (district) {
-              if (isDistrict8) {
+              if (is8) {
                 resultDiv.style.background = '#C41E3A';
                 resultDiv.style.color = 'white';
                 resultDiv.innerHTML = `<strong><i class="fa-solid fa-check-circle"></i> District 8</strong><br><span style="font-size: 11px;">Stephen Long's District!</span>`;
@@ -484,7 +611,7 @@ function getTexasDistrictsGeoJSON() {
       // Accurate boundaries based on Census Bureau data
       {
         "type": "Feature",
-        "properties": { "district": "8", "name": "TX-8" },
+        "properties": { "district": "8", "name": "TX-8", "CD118FP": "08" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -505,7 +632,7 @@ function getTexasDistrictsGeoJSON() {
       // Other major districts (simplified for performance, with correct general locations)
       {
         "type": "Feature",
-        "properties": { "district": "1", "name": "TX-1" },
+        "properties": { "district": "1", "name": "TX-1", "CD118FP": "01" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -517,7 +644,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "2", "name": "TX-2" },
+        "properties": { "district": "2", "name": "TX-2", "CD118FP": "02" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -530,7 +657,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "3", "name": "TX-3" },
+        "properties": { "district": "3", "name": "TX-3", "CD118FP": "03" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -542,7 +669,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "4", "name": "TX-4" },
+        "properties": { "district": "4", "name": "TX-4", "CD118FP": "04" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -554,7 +681,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "5", "name": "TX-5" },
+        "properties": { "district": "5", "name": "TX-5", "CD118FP": "05" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -566,7 +693,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "6", "name": "TX-6" },
+        "properties": { "district": "6", "name": "TX-6", "CD118FP": "06" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -578,7 +705,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "7", "name": "TX-7" },
+        "properties": { "district": "7", "name": "TX-7", "CD118FP": "07" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -590,7 +717,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "9", "name": "TX-9" },
+        "properties": { "district": "9", "name": "TX-9", "CD118FP": "09" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -603,7 +730,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "10", "name": "TX-10" },
+        "properties": { "district": "10", "name": "TX-10", "CD118FP": "10" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -615,7 +742,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "11", "name": "TX-11" },
+        "properties": { "district": "11", "name": "TX-11", "CD118FP": "11" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -627,7 +754,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "12", "name": "TX-12" },
+        "properties": { "district": "12", "name": "TX-12", "CD118FP": "12" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -640,7 +767,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "13", "name": "TX-13" },
+        "properties": { "district": "13", "name": "TX-13", "CD118FP": "13" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -652,7 +779,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "14", "name": "TX-14" },
+        "properties": { "district": "14", "name": "TX-14", "CD118FP": "14" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -664,7 +791,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "15", "name": "TX-15" },
+        "properties": { "district": "15", "name": "TX-15", "CD118FP": "15" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -675,7 +802,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "16", "name": "TX-16" },
+        "properties": { "district": "16", "name": "TX-16", "CD118FP": "16" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -686,7 +813,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "17", "name": "TX-17" },
+        "properties": { "district": "17", "name": "TX-17", "CD118FP": "17" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -698,7 +825,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "18", "name": "TX-18" },
+        "properties": { "district": "18", "name": "TX-18", "CD118FP": "18" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -710,7 +837,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "19", "name": "TX-19" },
+        "properties": { "district": "19", "name": "TX-19", "CD118FP": "19" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -722,7 +849,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "20", "name": "TX-20" },
+        "properties": { "district": "20", "name": "TX-20", "CD118FP": "20" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -734,7 +861,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "21", "name": "TX-21" },
+        "properties": { "district": "21", "name": "TX-21", "CD118FP": "21" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -746,7 +873,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "22", "name": "TX-22" },
+        "properties": { "district": "22", "name": "TX-22", "CD118FP": "22" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -758,7 +885,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "23", "name": "TX-23" },
+        "properties": { "district": "23", "name": "TX-23", "CD118FP": "23" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -770,7 +897,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "24", "name": "TX-24" },
+        "properties": { "district": "24", "name": "TX-24", "CD118FP": "24" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -782,7 +909,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "25", "name": "TX-25" },
+        "properties": { "district": "25", "name": "TX-25", "CD118FP": "25" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -794,7 +921,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "26", "name": "TX-26" },
+        "properties": { "district": "26", "name": "TX-26", "CD118FP": "26" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -806,7 +933,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "27", "name": "TX-27" },
+        "properties": { "district": "27", "name": "TX-27", "CD118FP": "27" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -818,7 +945,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "28", "name": "TX-28" },
+        "properties": { "district": "28", "name": "TX-28", "CD118FP": "28" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -830,7 +957,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "29", "name": "TX-29" },
+        "properties": { "district": "29", "name": "TX-29", "CD118FP": "29" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -842,7 +969,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "30", "name": "TX-30" },
+        "properties": { "district": "30", "name": "TX-30", "CD118FP": "30" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -854,7 +981,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "31", "name": "TX-31" },
+        "properties": { "district": "31", "name": "TX-31", "CD118FP": "31" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -866,7 +993,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "32", "name": "TX-32" },
+        "properties": { "district": "32", "name": "TX-32", "CD118FP": "32" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -878,7 +1005,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "33", "name": "TX-33" },
+        "properties": { "district": "33", "name": "TX-33", "CD118FP": "33" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -890,7 +1017,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "34", "name": "TX-34" },
+        "properties": { "district": "34", "name": "TX-34", "CD118FP": "34" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -902,7 +1029,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "35", "name": "TX-35" },
+        "properties": { "district": "35", "name": "TX-35", "CD118FP": "35" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -914,7 +1041,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "36", "name": "TX-36" },
+        "properties": { "district": "36", "name": "TX-36", "CD118FP": "36" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -926,7 +1053,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "37", "name": "TX-37" },
+        "properties": { "district": "37", "name": "TX-37", "CD118FP": "37" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
@@ -938,7 +1065,7 @@ function getTexasDistrictsGeoJSON() {
       },
       {
         "type": "Feature",
-        "properties": { "district": "38", "name": "TX-38" },
+        "properties": { "district": "38", "name": "TX-38", "CD118FP": "38" },
         "geometry": {
           "type": "Polygon",
           "coordinates": [[
