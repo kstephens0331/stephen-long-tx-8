@@ -123,28 +123,55 @@ async function loadOfficialDistrictData(map) {
   displayDistricts(map, getTexasDistrictsGeoJSON(), 'district');
 }
 
+// Store district layer globally for point-in-polygon checks
+let globalDistrictLayer = null;
+let globalDistrictField = null;
+
+function getDistrictNumber(feature, districtField) {
+  // Try multiple property names used by different data sources
+  const props = feature.properties;
+  let district = props[districtField] || props.CD118FP || props.CD116FP || props.DISTRICT ||
+                 props.district || props.CDFP || props.CD || props.GEOID || '';
+
+  // Convert to string and remove leading zeros
+  district = String(district).replace(/^0+/, '');
+
+  // If GEOID, extract last 2 digits (district number)
+  if (district.length > 2 && props.GEOID) {
+    district = String(parseInt(props.GEOID.slice(-2)));
+  }
+
+  return district;
+}
+
 function displayDistricts(map, geojson, districtField) {
   const loadingDiv = document.getElementById('map-loading');
   if (loadingDiv) loadingDiv.style.display = 'none';
 
+  // Store for later use in address search
+  globalDistrictField = districtField;
+
   // Style function for districts
   const districtLayer = L.geoJSON(geojson, {
     style: function(feature) {
-      const district = String(feature.properties[districtField] || feature.properties.DISTRICT || feature.properties.district || '').replace(/^0+/, '');
+      const district = getDistrictNumber(feature, districtField);
       const isDistrict8 = district === '8';
 
       return {
         fillColor: isDistrict8 ? '#C41E3A' : '#e0e0e0',
-        fillOpacity: isDistrict8 ? 0.6 : 0.3,
+        fillOpacity: isDistrict8 ? 0.65 : 0.3,
         color: isDistrict8 ? '#8a0621' : '#666',
         weight: isDistrict8 ? 4 : 1,
         opacity: 1
       };
     },
     onEachFeature: function(feature, layer) {
-      const district = String(feature.properties[districtField] || feature.properties.DISTRICT || feature.properties.district || '').replace(/^0+/, '');
+      const district = getDistrictNumber(feature, districtField);
       const isDistrict8 = district === '8';
       const name = feature.properties.NAME || feature.properties.NAMELSAD || `District ${district}`;
+
+      // Store district number on layer for point-in-polygon lookup
+      layer.districtNumber = district;
 
       layer.bindPopup(`
         <div style="text-align: center; padding: 10px;">
@@ -169,6 +196,9 @@ function displayDistricts(map, geojson, districtField) {
     }
   }).addTo(map);
 
+  // Store globally for address search
+  globalDistrictLayer = districtLayer;
+
   // Add District 8 cities
   addDistrict8Cities(map);
 
@@ -179,7 +209,7 @@ function displayDistricts(map, geojson, districtField) {
   map.fitBounds(districtLayer.getBounds());
 
   // Add search control
-  addAddressSearch(map);
+  addAddressSearch(map, districtLayer);
 }
 
 function addDistrict8Cities(map) {
@@ -253,21 +283,72 @@ function addLegend(map) {
   legend.addTo(map);
 }
 
-function addAddressSearch(map) {
+// Point-in-polygon check using ray casting algorithm
+function pointInPolygon(point, polygon) {
+  const x = point[1]; // lng
+  const y = point[0]; // lat
+
+  let inside = false;
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    const xi = polygon[i][0], yi = polygon[i][1];
+    const xj = polygon[j][0], yj = polygon[j][1];
+
+    if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) {
+      inside = !inside;
+    }
+  }
+  return inside;
+}
+
+function findDistrictForPoint(lat, lng) {
+  if (!globalDistrictLayer) return null;
+
+  let foundDistrict = null;
+
+  globalDistrictLayer.eachLayer(layer => {
+    if (foundDistrict) return;
+
+    const feature = layer.feature;
+    if (!feature || !feature.geometry) return;
+
+    const coords = feature.geometry.coordinates;
+    const geomType = feature.geometry.type;
+
+    // Handle Polygon
+    if (geomType === 'Polygon') {
+      if (pointInPolygon([lat, lng], coords[0])) {
+        foundDistrict = layer.districtNumber || getDistrictNumber(feature, globalDistrictField);
+      }
+    }
+    // Handle MultiPolygon
+    else if (geomType === 'MultiPolygon') {
+      for (const poly of coords) {
+        if (pointInPolygon([lat, lng], poly[0])) {
+          foundDistrict = layer.districtNumber || getDistrictNumber(feature, globalDistrictField);
+          break;
+        }
+      }
+    }
+  });
+
+  return foundDistrict;
+}
+
+function addAddressSearch(map, districtLayer) {
   const searchControl = L.control({ position: 'topleft' });
 
   searchControl.onAdd = function() {
     const div = L.DomUtil.create('div', 'address-search');
     div.innerHTML = `
-      <div style="background: white; padding: 8px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
-        <input type="text" id="address-input" placeholder="Enter address..." style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; width: 200px; font-size: 14px;">
+      <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+        <input type="text" id="address-input" placeholder="Enter Texas address..." style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; width: 220px; font-size: 14px;">
         <button id="search-btn" style="padding: 8px 12px; background: #1B365D; color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 4px;">
           <i class="fa-solid fa-search"></i>
         </button>
+        <div id="district-result" style="margin-top: 8px; display: none; padding: 8px; border-radius: 4px; font-size: 13px;"></div>
       </div>
     `;
 
-    // Prevent map interactions when using search
     L.DomEvent.disableClickPropagation(div);
     L.DomEvent.disableScrollPropagation(div);
 
@@ -276,17 +357,24 @@ function addAddressSearch(map) {
 
   searchControl.addTo(map);
 
-  // Add search functionality after control is added
   setTimeout(() => {
     const input = document.getElementById('address-input');
     const btn = document.getElementById('search-btn');
+    const resultDiv = document.getElementById('district-result');
     let searchMarker = null;
 
     const doSearch = async () => {
       const address = input.value.trim();
       if (!address) return;
 
-      // Use Nominatim for geocoding (free, no API key required)
+      // Show loading state
+      if (resultDiv) {
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Searching...';
+        resultDiv.style.background = '#f0f0f0';
+        resultDiv.style.color = '#666';
+      }
+
       const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address + ', Texas, USA')}&limit=1`;
 
       try {
@@ -300,6 +388,10 @@ function addAddressSearch(map) {
           const lat = parseFloat(result.lat);
           const lng = parseFloat(result.lon);
 
+          // Find which district this point is in
+          const district = findDistrictForPoint(lat, lng);
+          const isDistrict8 = district === '8';
+
           // Remove previous marker
           if (searchMarker) map.removeLayer(searchMarker);
 
@@ -307,20 +399,71 @@ function addAddressSearch(map) {
           searchMarker = L.marker([lat, lng], {
             icon: L.divIcon({
               className: 'search-marker',
-              html: '<i class="fa-solid fa-location-dot" style="font-size: 24px; color: #C41E3A;"></i>',
-              iconSize: [24, 24],
-              iconAnchor: [12, 24]
+              html: `<i class="fa-solid fa-location-dot" style="font-size: 28px; color: ${isDistrict8 ? '#C41E3A' : '#1B365D'}; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"></i>`,
+              iconSize: [28, 28],
+              iconAnchor: [14, 28]
             })
           }).addTo(map);
 
-          searchMarker.bindPopup(`<strong>${result.display_name}</strong>`).openPopup();
-          map.setView([lat, lng], 12);
+          // Build popup content
+          let popupContent = `<div style="text-align: center; min-width: 200px;">`;
+          popupContent += `<strong style="font-size: 14px;">${result.display_name.split(',').slice(0, 3).join(',')}</strong><br>`;
+
+          if (district) {
+            if (isDistrict8) {
+              popupContent += `<div style="background: #C41E3A; color: white; padding: 8px; border-radius: 4px; margin-top: 8px;">`;
+              popupContent += `<strong>Congressional District ${district}</strong><br>`;
+              popupContent += `<span style="font-size: 12px;">Stephen Long is running for this seat!</span>`;
+              popupContent += `</div>`;
+            } else {
+              popupContent += `<div style="background: #1B365D; color: white; padding: 8px; border-radius: 4px; margin-top: 8px;">`;
+              popupContent += `<strong>Congressional District ${district}</strong>`;
+              popupContent += `</div>`;
+            }
+          } else {
+            popupContent += `<div style="background: #666; color: white; padding: 8px; border-radius: 4px; margin-top: 8px;">`;
+            popupContent += `<span>District not found for this location</span>`;
+            popupContent += `</div>`;
+          }
+          popupContent += `</div>`;
+
+          searchMarker.bindPopup(popupContent).openPopup();
+          map.setView([lat, lng], 11);
+
+          // Update result div
+          if (resultDiv) {
+            if (district) {
+              if (isDistrict8) {
+                resultDiv.style.background = '#C41E3A';
+                resultDiv.style.color = 'white';
+                resultDiv.innerHTML = `<strong><i class="fa-solid fa-check-circle"></i> District 8</strong><br><span style="font-size: 11px;">Stephen Long's District!</span>`;
+              } else {
+                resultDiv.style.background = '#1B365D';
+                resultDiv.style.color = 'white';
+                resultDiv.innerHTML = `<strong><i class="fa-solid fa-map-marker-alt"></i> District ${district}</strong>`;
+              }
+            } else {
+              resultDiv.style.background = '#f0f0f0';
+              resultDiv.style.color = '#666';
+              resultDiv.innerHTML = `<i class="fa-solid fa-question-circle"></i> District not determined`;
+            }
+          }
         } else {
-          alert('Address not found. Try a more specific address.');
+          if (resultDiv) {
+            resultDiv.style.display = 'block';
+            resultDiv.style.background = '#fee';
+            resultDiv.style.color = '#c00';
+            resultDiv.innerHTML = '<i class="fa-solid fa-exclamation-circle"></i> Address not found';
+          }
         }
       } catch (error) {
         console.error('Geocoding error:', error);
-        alert('Error searching for address. Please try again.');
+        if (resultDiv) {
+          resultDiv.style.display = 'block';
+          resultDiv.style.background = '#fee';
+          resultDiv.style.color = '#c00';
+          resultDiv.innerHTML = '<i class="fa-solid fa-exclamation-circle"></i> Search error';
+        }
       }
     };
 
