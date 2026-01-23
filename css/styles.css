@@ -2721,10 +2721,11 @@ img {
   .hero-text {
     max-width: 100%;
     padding: 0 1rem;
+    order: 1;
   }
 
   .hero-image {
-    order: -1;
+    order: 2;
     max-width: 300px;
     margin: 0 auto;
   }
@@ -2735,6 +2736,12 @@ img {
 
   .hero-subtitle {
     font-size: 1.5rem;
+  }
+
+  .hero-position {
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .hero-buttons {
@@ -2789,19 +2796,40 @@ img {
   .hero {
     padding-top: 80px;
     min-height: auto;
+    overflow-x: hidden;
   }
 
   .hero-content {
     padding: 2rem 0;
   }
 
+  .hero-text {
+    order: 1;
+  }
+
+  .hero-image {
+    order: 2;
+  }
+
   .hero-title {
     font-size: 2rem;
     line-height: 1.2;
+    word-wrap: break-word;
   }
 
   .hero-subtitle {
     font-size: 1.25rem;
+  }
+
+  .hero-position {
+    font-size: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .hero-position span {
+    white-space: nowrap;
   }
 
   .hero-tagline {
@@ -2810,12 +2838,23 @@ img {
   }
 
   .hero-quote {
-    font-size: 1rem;
-    padding: 1rem;
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .hero-description {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    word-wrap: break-word;
+  }
+
+  /* Prevent horizontal overflow */
+  .hero-text,
+  .hero-text * {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
 
   .hero-buttons {
