@@ -168,9 +168,16 @@
             <p class="hero-subtitle">
               <span class="subtitle-badge">Republican</span> for Congress | Texas District 8
             </p>
+            <div class="hero-image-inline">
+              <div class="hero-image-wrapper">
+                <div class="hero-image-accent"></div>
+                <div class="hero-image-glow"></div>
+                <img src="images/stephen-long-headshot.jpg" alt="Stephen Long - Republican Candidate for Congress TX-8" width="400" height="500">
+              </div>
+            </div>
             <p class="hero-quote">
               <span class="quote-mark">"</span>
-              Let's leave our children a strong, free, and financially secure country.
+              <strong>Let's leave our children a strong, free, and financially secure country.</strong>
               <span class="quote-mark">"</span>
             </p>
             <p class="hero-description">
@@ -181,9 +188,9 @@
                 <span>Where I Stand</span>
                 <i class="fa-solid fa-arrow-right"></i>
               </a>
-              <a href="pages/donate.html" class="btn btn-outline btn-magnetic">
+              <button type="button" class="btn btn-outline btn-magnetic" onclick="showSupportMessage()">
                 <span>Support the Campaign</span>
-              </a>
+              </button>
             </div>
             <div class="hero-social">
               <a href="https://x.com/StephenLong3250" target="_blank" rel="noopener noreferrer" aria-label="Follow on X (Twitter)" class="social-icon-premium">
@@ -198,13 +205,6 @@
               <a href="https://www.linkedin.com/in/steve-long-3889b430/" target="_blank" rel="noopener noreferrer" aria-label="Connect on LinkedIn" class="social-icon-premium">
                 <i class="fa-brands fa-linkedin-in"></i>
               </a>
-            </div>
-          </div>
-          <div class="hero-image" data-animate="fade-left">
-            <div class="hero-image-wrapper">
-              <div class="hero-image-accent"></div>
-              <div class="hero-image-glow"></div>
-              <img src="images/stephen-long-headshot.jpg" alt="Stephen Long - Republican Candidate for Congress TX-8" width="400" height="500">
             </div>
           </div>
         </div>
@@ -569,9 +569,92 @@
     </div>
   </footer>
 
+  <!-- Support Message Modal -->
+  <div id="supportModal" class="support-modal" onclick="closeSupportModal(event)">
+    <div class="support-modal-content">
+      <button class="support-modal-close" onclick="closeSupportModal()">&times;</button>
+      <h3><i class="fa-solid fa-heart"></i> Thank You for Your Support!</h3>
+      <p>My campaign is self funded and I am not accepting donations at this time.</p>
+      <p>If you agree with my message, please follow me and share my website on social media.</p>
+      <div class="support-modal-social">
+        <a href="https://x.com/StephenLong3250" target="_blank" rel="noopener" class="btn btn-primary"><i class="fa-brands fa-x-twitter"></i> Follow on X</a>
+        <a href="https://www.facebook.com/people/Stephen-Long-for-Congress-TX-8/61585637946937/" target="_blank" rel="noopener" class="btn btn-primary"><i class="fa-brands fa-facebook-f"></i> Follow on Facebook</a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .support-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    }
+    .support-modal.active {
+      display: flex;
+    }
+    .support-modal-content {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: 1rem;
+      text-align: center;
+      position: relative;
+    }
+    .support-modal-content h3 {
+      color: var(--primary-red);
+      margin-bottom: 1rem;
+    }
+    .support-modal-content p {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .support-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--medium-gray);
+    }
+    .support-modal-social {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .support-modal-social .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  </style>
+
   <!-- JavaScript -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/main.js"></script>
   <script src="js/district-map.js"></script>
+  <script>
+    function showSupportMessage() {
+      document.getElementById('supportModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeSupportModal(event) {
+      if (!event || event.target === event.currentTarget) {
+        document.getElementById('supportModal').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+  </script>
 </body>
 </html>
