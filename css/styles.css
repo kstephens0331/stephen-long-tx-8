@@ -579,7 +579,7 @@ img {
 
 .hero-quote {
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
   font-style: italic;
   color: var(--gray-700);
   max-width: 600px;
@@ -619,6 +619,7 @@ img {
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .hero-image-wrapper {
@@ -2869,7 +2870,7 @@ img {
   }
 
   .hero-quote {
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     padding: 0.75rem 1rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -3075,7 +3076,7 @@ img {
   }
 
   .hero-quote {
-    font-size: 0.85rem;
+    font-size: 1.05rem;
     padding: 0.5rem 0.75rem;
   }
 
@@ -3260,7 +3261,7 @@ img {
   }
 
   .hero-quote {
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     padding: 0.4rem 0.5rem;
   }
 
