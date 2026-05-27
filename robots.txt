@@ -1,11 +1,11 @@
 # Robots.txt for Stephen Long for Congress TX-8
-# https://stephenlongforcongress.com
+# https://www.stephenlongforcongress.com
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://stephenlongforcongress.com/sitemap.xml
+Sitemap: https://www.stephenlongforcongress.com/sitemap.xml
 
 # Crawl-delay for polite crawling
 Crawl-delay: 1
